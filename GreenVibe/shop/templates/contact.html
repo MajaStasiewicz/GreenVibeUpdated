@@ -1,0 +1,62 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{%static 'css/shop.css'%}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+</head>
+
+<div class="containerLogin">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="custom-alert">
+            {{message}}
+            <button class="close-button" aria-label="Close">×</button>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="contactDiv">
+        <b><p class="data">BIURO</p></b>
+        <p class="data">GreenVibe</p>
+        <p class="data">ul. Kopernika 1</p>
+        <p class="data">85-074 Bydgoszcz</p>
+        <b><p class="data">NAPISZ DO NAS</p></b>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="divSend">
+            <span class="data">WPISZ SWÓJ EMAIL</span>
+            <input type="text" name="email" class="email" required>
+            <span class="data">WIADOMOŚĆ</span>
+            <textarea id="textArea" rows="2" cols="10" name="body" maxlength="5000" required></textarea>
+            <button class="buttonContact">wyślij wiadomość</button>
+        </div>
+    </form>
+</div>
+    <script>
+        $(document).ready(function() {
+            var textarea = $('#textArea');
+            
+            textarea.on('input', function () {
+                this.style.height = 'auto'; 
+                this.style.height = (this.scrollHeight) + 'px'; 
+            });
+        });
+    </script>
+
+     <script>
+        var closeButtons = document.querySelectorAll('.close-button');
+    
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var alert = this.closest('.custom-alert');
+                if (alert) {
+                    alert.style.display = 'none'; 
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,271 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{%static 'css/shop.css'%}">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<div class="containerLogin">
+     {% if messages %}
+         {% for message in messages %}
+         <div class="custom-alert">
+             {{message}}
+             <button class="close-button" aria-label="Close">×</button>
+         </div>
+         {% endfor %}
+     {% endif %}
+ </div>
+
+ <div class="loginForm">
+     <p class="dataQuestion">Nazwa użytkownika: {{ username }}</p>
+     <button class="buttonContact" onclick="toggleOrderHistory()">historia zamówień</button>
+
+     <div id="orderHistoryContainer" style="display: none;">
+        {% with current_date=None %}
+            {% if orders_by_date %}
+                {% for order in orders_by_date %}
+                    {% ifchanged order.order.date %}
+                        {% if not forloop.first %}
+                            </tbody>
+                            </table>
+                        {% endif %}
+                        <table class="orderHistory">
+                            <thead>
+                                <tr>
+                                    <th colspan="4">{{ order.order.date }}</th>
+                                    <th colspan="2">Opłata za całe zamówienie (łącznie z zastosowanym kodem rabatowym oraz wysyłką): {{ order.priceOrder }}zł</th>
+                                </tr>
+                                <tr class="hidden-on-mobile">
+                                    <th class="hidden-on-mobile">Nazwa</th>
+                                    <th class="hidden-on-mobile">Opcja</th>
+                                    <th class="hidden-on-mobile">Ilość</th>
+                                    <th class="hidden-on-mobile">Cena</th>
+                                    <th class="hidden-on-mobile">Recenzja</th>
+                                    <th class="hidden-on-mobile">Status paczki</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    {% endifchanged %}
+                    <tr>
+                        <td>{{ order.product }}</td>
+                        <td>{{ order.option }}</td>
+                        <td>{{ order.quantity }}</td>
+                        <td>{{ order.total_price }}zł</td>
+                        <td>
+                            {% if order.review == False %}
+                                <button class="buttonContact2" onclick="openPopupReview('{{ order.product }}')" id="addReview">dodaj opinię</button>
+                            {% else %}
+                                <b>OPINIA ZOSTAŁA JUŻ DODANA</b>
+                            {% endif %}
+                        </td>
+                        <td>{{ order.delivery_status }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+                <br>
+                </div>
+            {% else %}
+                <span class="dataQuestion">Brak zamówień.</span>
+                <br>
+                <br>
+            </div>
+            {% endif %}
+        {% endwith %}
+    <br>
+        <button class="buttonContact" id="buttonMyData" onclick="myData()">moje dane</button>
+        <form method="POST">
+            {% csrf_token %}
+            <div id="myData" style="display: none;">
+            <div class="orderAllUser">
+                <div class="orderLeft">
+                    <p class="dataQuestion">Imię:</p>
+                    <input class="dataOrder" name="name" type="textbox" value='{{ user_address.name }}' required>
+                    <p class="dataQuestion">Nazwisko:</p>
+                    <input class="dataOrder" name="surname" type="textbox" value='{{ user_address.surname }}' required>
+                    <p class="dataQuestion">Email:</p>
+                    <input class="dataOrder" name="email" type="email" value='{{ user_address.email }}' required>
+                    <p class="dataQuestion">Telefon:</p>
+                    <input class="dataOrder" name="telephone" type="tel" value='{{ user_address.telephone }}' pattern="[0-9]{9}" required title="Proszę wprowadzić numer telefonu składający się z 9 cyfr, bez spacji ani znaków specjalnych.">
+                </div>
+                <div class="orderRight">
+                    <p class="dataQuestion">Ulica:</p>
+                    <input class="dataOrder" name="street" type="textbox" value='{{ user_address.street }}' required>
+                    <p class="dataQuestion">Numer:</p>
+                    <input class="dataOrder" name="number" type="textbox" value='{{ user_address.number }}' required>
+                    <p class="dataQuestion">Kod pocztowy:</p>
+                    <input class="dataOrder" name="postcode" type="text" value='{{ user_address.postcode }}' pattern="[0-9]{2}-[0-9]{3}" required title="Proszę wprowadzić poprawny kod pocztowy w formacie XX-XXX, gdzie X to cyfry.">
+                    <p class="dataQuestion">Miasto:</p>
+                    <input class="dataOrder" name="city" type="textbox" value='{{ user_address.city }}' required>
+                </div>
+            </div>
+            <div class="orderRightUser">
+                <button class="buttonContact" name="user_data" value="save">zapisz</button>
+            </div>
+            <br>
+        </div>
+       </form>  
+
+     <form action="/change/">
+        {% csrf_token %}
+          <button class="buttonContact">zmień hasło</button>
+     </form>  
+     
+     <form action="/delete_account/" onsubmit="return confirm('Czy na pewno chcesz usunąć konto?');">
+        {% csrf_token %}
+        <button type="submit" class="buttonContact">usuń konto</button>
+    </form>
+</div>
+</div>  
+     <script>
+          var closeButtons = document.querySelectorAll('.close-button');
+      
+          closeButtons.forEach(function(button) {
+              button.addEventListener('click', function() {
+                  var alert = this.closest('.custom-alert');
+                  if (alert) {
+                      alert.style.display = 'none'; 
+                  }
+              });
+          });
+</script>
+
+<script>
+    function toggleOrderHistory() {
+        var orderHistoryContainer = document.getElementById('orderHistoryContainer');
+        var button = document.querySelector('.buttonContact');
+
+        if (orderHistoryContainer.style.display === 'none' || orderHistoryContainer.style.display === '') {
+            orderHistoryContainer.style.display = 'block';
+            button.innerHTML = 'zwiń historię zamówień';
+        } else {
+            orderHistoryContainer.style.display = 'none';
+            button.innerHTML = 'historia zamówień';
+        }
+    }
+
+    function myData() {
+        var myDataContainer = document.getElementById('myData');
+        var button = document.getElementById('buttonMyData');
+
+        if (myDataContainer.style.display === 'none' || myDataContainer.style.display === '') {
+            myDataContainer.style.display = 'block';
+            button.innerHTML = 'zwiń moje dane';
+        } else {
+            myDataContainer.style.display = 'none';
+            button.innerHTML = 'moje dane';
+        }
+    }
+</script>
+
+<div class="popupReview" id="popupReview">
+    <br>
+    <form method="POST" onsubmit="return validateRating()">
+        {% csrf_token %}
+        <label for="rate" class="postTopic">Ocena:</label>
+        <input type="range" id="topic" name="rate" min="0" max="5" step="0.1" value="0" onclick="textValue()">
+        <span id="temat-value" class="postTopic" name="rate">0</span>
+        <p class="postTopic">Treść: </p>
+        <textarea id="myTextArea2" rows="2" cols="30" name="comment" maxlength="300" required></textarea>
+        <br>
+        <button id="closePopupButton" class="buttonPopupReview" onclick="closePopupReview()">opublikuj</button>
+        <button id="closePopupButton" class="buttonPopupReview" onclick="closePopup()">wyjdź</button>
+        <input type="hidden" value="" name="productId" id="productId">
+    </form>
+</div>
+        
+<script>
+    function validateRating() {
+        var rating = document.getElementById("topic").value;
+        if (rating == 0) {
+            alert("Proszę wybrać ocenę przed opublikowaniem recenzji.");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+<script>
+    let popup;
+   
+        popup = document.getElementById("popupReview");
+
+        function openPopupReview(productName) {
+    let popup;
+    popup = document.getElementById("popupReview");
+    var productIdSend = document.getElementById("productId");
+    productIdSend.value = productName;
+    popup.classList.add("open-popupReview");
+}
+    function closePopupReview() {
+        var commentValue = document.getElementsByName("comment")[0].value;
+    
+        if (commentValue.trim() === "") {
+            alert("Komentarz nie może zawierać samych białych znaków.");
+            event.preventDefault();
+            return false;
+        }
+    return true;
+
+        //popup.classList.remove("open-popupReview");
+    }
+
+    function closePopup() {
+        popup.classList.remove("open-popupReview");
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        var textarea = $('#myTextArea2');
+        
+        textarea.on('input', function () {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+        });
+    });
+</script>
+
+
+<script>
+    window.onload = function() {
+    textValue();
+  };
+  document.addEventListener('DOMContentLoaded', function() {
+  textValue(); 
+});
+
+window.addEventListener('resize', function() {
+  textValue(); 
+});
+   
+    function textValue() {
+        const tematInput = document.getElementById("topic");
+        const tematValue = document.getElementById("temat-value");
+    
+        tematInput.addEventListener("input", function() {
+            tematValue.textContent = (tematInput.value);
+        });
+    }
+</script>
+
+
+<script>
+    function postCreateButton() {
+     
+        var commentValue = document.getElementsByName("comment")[0].value;
+    
+        if (commentValue.trim() === "") {
+
+    alert("Komentarz nie może zawierać samych białych znaków.");
+    event.preventDefault();
+    return false;
+}
+      
+        return true;
+    }
+</script>
+{% endblock %}

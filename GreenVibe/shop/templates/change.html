@@ -1,0 +1,39 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{%static 'css/shop.css'%}">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+</head>
+<br>
+<br>
+<div class="form-group">
+    <form method="POST" class="loginForm" id="registrationForm" onsubmit="return validateForm()" action="/change/">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="dataRegistrationChange">
+                {{ field.label_tag }} {{ field }}
+                {% if field.errors %}
+                    <b><p class="error">{{ field.errors.as_text }}</p></b>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button id="register_button" class="buttonContact">zmień hasło</button>
+    </form>
+</div>
+    
+        <script>
+            var closeButtons = document.querySelectorAll('.close-button');
+        
+            closeButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var alert = this.closest('.custom-alert');
+                    if (alert) {
+                        alert.style.display = 'none';
+                    }
+                });
+            });
+        </script>
+        
+{% endblock %}

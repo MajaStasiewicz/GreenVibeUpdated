@@ -1,0 +1,163 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{%static 'css/shop.css'%}">
+    <link rel="stylesheet" href="{%static 'css/products.css'%}">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+</head>
+
+
+
+<div class="popup" id="popup">
+    <p class="postTopic">Zakręć, aby odebrać nagrodę!</p>
+    <br>
+    <img src="{% static 'images/znacznik.png' %}" id="mark">
+    <br>
+    <img src="{% static 'images/wheelL.png' %}" id="wheel" class="circle-avatarBlog">
+    <br>
+    <button id="rotate-button" class="buttonPopupHome">zakręć</button>
+    <br>
+    <button type="button" class="buttonPopupHome" id="myButton" onclick="closePopup()" disabled>odbierz rabat</button>
+    <button type="button" class="buttonPopupHome" id="myButton2" onclick="closePopup()">wyjdź</button>
+</div>
+
+<div id="overlaySite">
+<div class="containerLogin">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="custom-alert">
+            {{message}}
+            <button class="close-button" aria-label="Close">×</button>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="banner-container">
+    {% for banner in active_banners %}
+        <img class="banner-image" src="{{ banner.image.url }}" alt="Banner Image">
+    {% endfor %}
+</div>
+
+<b id="title">Witaj na stronie GreenVibe</b>
+        <p>OTO NASZE BESTSELLERY</p>
+
+{% for category_name, bestsellers in bestsellers_by_category.items %}
+    <b><p>{{ category_name }}</p></b>
+<div class="containerProducts">
+    {% for product in bestsellers %}
+      <a href="/moreP/{{ product.id }}/"><div class="containerProductsDetails">
+        <div class="containerDetailsName">{{ product.name }}</div>
+        <br>
+        <div class="containerDetails"><img src="{{ product.photo.url }}" width="160" height="260"></div>
+        <br>
+        <div class="containerDetailsName" data-price="{{ product.price}}">Cena: {{ product.price }}zł</div>
+    </div></a>
+    {% endfor %}
+</div>
+{% endfor %}
+
+
+       
+    </div>
+        <script>
+            var closeButtons = document.querySelectorAll('.close-button');
+        
+            closeButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var alert = this.closest('.custom-alert');
+                    if (alert) {
+                        alert.style.display = 'none'; 
+                    }
+                });
+            });
+        </script>
+        
+<script>
+    let popup;
+   
+        popup = document.getElementById("popup");
+        
+        document.addEventListener('DOMContentLoaded', openPopup);
+
+
+    function openPopup() {
+        document.body.style.overflow = 'hidden';
+        popup.classList.add("open-popup");
+        document.getElementById('overlayNav').classList.add('nav_fot');
+        document.getElementById('overlayFooter').classList.add('nav_fot');
+        document.getElementById('overlaySite').classList.add('nav_fot');
+    }
+    function closePopup() {
+        document.body.style.overflow = 'auto';
+        popup.classList.remove("open-popup");
+        document.getElementById('overlayNav').classList.remove('nav_fot');
+        document.getElementById('overlayFooter').classList.remove('nav_fot');
+        document.getElementById('overlaySite').classList.remove('nav_fot');
+    }
+
+    let buttonClicked = false;
+    var randomFieldX;
+    document.getElementById('rotate-button').addEventListener('click', function() {
+        if (!buttonClicked) {
+            var wheel = document.getElementById('wheel');
+            var randomRotation = Math.floor(Math.random() * (1081 - 360) + 360);
+            wheel.style.transform = `rotate(${randomRotation}deg)`;
+            buttonClicked = true;
+            this.disabled = true;
+            randomFieldX = randomRotation;
+            var buttonForm = document.getElementById("myButton");
+            buttonForm.disabled = false;
+            buttonForm.classList.remove("buttonPopupHome");
+            
+            buttonForm.classList.add("colorChange");
+        }
+    });
+
+    document.getElementById("myButton").addEventListener("click", function() {
+        var randomField = randomFieldX;
+
+        if ((360 <= randomField && randomField <= 382.5) || (720 <= randomField && randomField <= 742.5)) {
+        randomField1 = "10";
+        } else if ((382.5 < randomField && randomField <= 405) || (742.5 <= randomField && randomField <= 765)) {
+        randomField1 = "15";
+        } else if ((405 < randomField && randomField <= 427.5) || (765 <= randomField && randomField <= 787.5)) {
+        randomField1 = "10";
+        } else if ((427.5 < randomField && randomField <= 450) || (787.5 <= randomField && randomField <= 810)) {
+        randomField1 = "20";
+        } else if ((450 < randomField && randomField <= 472.5) || (810 <= randomField && randomField <= 832.5)) {
+        randomField1 = "5";
+        } else if ((472.5 < randomField && randomField <= 495) || (832.5 <= randomField && randomField <= 855)) {
+        randomField1 = "3";
+        } else if ((495 < randomField && randomField <= 517.5) || (855 <= randomField && randomField <= 877.5)) {
+        randomField1 = "10";
+        } else if ((517.5 < randomField && randomField <= 540) || (877.5 <= randomField && randomField <= 900)) {
+        randomField1 = "5";
+        } else if ((540 < randomField && randomField <= 562.5) || (900 <= randomField && randomField <= 922.5)) {
+        randomField1 = "15";
+        } else if ((562.5 < randomField && randomField <= 585) || (922.5 <= randomField && randomField <= 945)) {
+        randomField1 = "2";
+        } else if ((585 < randomField && randomField <= 607.5) || (945 <= randomField && randomField <= 967.5)) {
+        randomField1 = "10";
+        } else if ((607.5 < randomField && randomField <= 630) || (967.5 <= randomField && randomField <= 990)) {
+        randomField1 = "20";
+        } else if ((630 < randomField && randomField <= 652.5) || (990 <= randomField && randomField <= 1012.5)) {
+        randomField1 = "5";
+        } else if ((652.5 < randomField && randomField <= 675) || (1012.5 <= randomField && randomField <= 1035)) {
+        randomField1 = "25";
+        } else if ((675 < randomField && randomField <= 697.5) || (1035 <= randomField && randomField <= 1057.5)) {
+        randomField1 = "10";
+        } else {
+        randomField1 = "5";
+        } 
+
+        if (randomField1 !== 0) {
+            var parametr = randomField1;
+            window.location.href = '/newsletter/?parametr=' + parametr;
+        }
+    });
+</script>
+
+{% endblock %}

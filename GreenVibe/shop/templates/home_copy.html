@@ -1,0 +1,60 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{%static 'css/shop.css'%}">
+    <link rel="stylesheet" href="{%static 'css/products.css'%}">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+</head>
+
+<div id="overlaySite">
+<div class="containerLogin">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="custom-alert">
+            {{message}}
+            <button class="close-button" aria-label="Close">×</button>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="banner-container">
+    {% for banner in active_banners %}
+        <img class="banner-image" src="{{ banner.image.url }}" alt="Banner Image">
+    {% endfor %}
+</div>
+
+<b id="title">Witaj na stronie GreenVibe</b>
+        <p>OTO NASZE BESTSELLERY</p>
+
+{% for category_name, bestsellers in bestsellers_by_category.items %}
+    <b><p>{{ category_name }}</p></b>
+<div class="containerProducts">
+    {% for product in bestsellers %}
+      <a href="/moreP/{{ product.id }}/"><div class="containerProductsDetails">
+        <div class="containerDetailsName">{{ product.name }}</div>
+        <br>
+        <div class="containerDetails"><img src="{{ product.photo.url }}" width="160" height="260"></div>
+        <br>
+        <div class="containerDetailsName" data-price="{{ product.price}}">Cena: {{ bestseller.price }}</div>
+    </div></a>
+    {% endfor %}
+</div>
+{% endfor %}
+
+</div>
+<script>
+    var closeButtons = document.querySelectorAll('.close-button');
+
+    closeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var alert = this.closest('.custom-alert');
+            if (alert) {
+                alert.style.display = 'none'; 
+            }
+        });
+    });
+</script>
+{% endblock %}

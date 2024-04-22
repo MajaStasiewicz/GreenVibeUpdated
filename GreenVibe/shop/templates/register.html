@@ -1,0 +1,56 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{%static 'css/shop.css'%}">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+</head>
+
+{% if form.errors %}
+<p>There is error!</p>
+{% endif %}
+
+<div class="containerLogin">
+     {% if messages %}
+         {% for message in messages %}
+         <div class="custom-alert">
+             {{message}}
+             <button class="close-button" aria-label="Close">×</button>
+         </div>
+         {% endfor %}
+     {% endif %}
+</div>
+
+<div class="form-group">
+    <form method="POST" id="registrationForm" onsubmit="return validateForm()" action="/register/" class="loginForm">
+        {% csrf_token %}
+        <p class="dataQuestion">REJESTRACJA</p>
+
+        {% for field in form %}
+            <div class="dataRegistration">
+                {{ field.label_tag }} {{ field }}
+                {% if field.errors %}
+                    <p class="error">{{ field.errors.as_text }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button id="register_button" class="buttonContact">zarejestruj się</button>
+    </form>
+</div>
+
+<script>
+    var closeButtons = document.querySelectorAll('.close-button');
+
+    closeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var alert = this.closest('.custom-alert');
+            if (alert) {
+                alert.style.display = 'none'; 
+            }
+        });
+    });
+</script>
+
+{% endblock %}

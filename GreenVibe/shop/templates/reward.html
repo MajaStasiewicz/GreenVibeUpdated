@@ -1,0 +1,41 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{%static 'css/shop.css'%}">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+</head>
+<div class="containerLogin">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="custom-alert">
+            {{message}}
+            <button class="close-button" aria-label="Close">×</button>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+    <form method="POST" class="rewardForm">
+        {% csrf_token %}
+        <p>WYLOSOWAŁEŚ RABAT NA: <span class="rewardCount">{{ parametr }}%</span>!</p>
+        <p>Wpisz email, aby odebrać kod rabatowy:</p>
+        <input type="text" class="textReward" name="email" required><br>
+        <button class="buttonReward">zapisz się do newslettera</button>
+    </form>
+
+    <script>
+        var closeButtons = document.querySelectorAll('.close-button');
+    
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var alert = this.closest('.custom-alert');
+                if (alert) {
+                    alert.style.display = 'none'; 
+                }
+            });
+        });
+    </script>
+{% endblock %}

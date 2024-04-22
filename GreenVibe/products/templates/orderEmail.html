@@ -1,0 +1,25 @@
+{% autoescape off %}
+Cześć{{ user.username }},
+oto szczegóły twojego zamówienia:
+{% for product in products %}
+    Nazwa produktu: {{ product.product.name }}
+    Opcja: {{ product.option }}
+    Ilość: {{ product.quantity }}
+    Cena: {{ product.total_price }}
+{% endfor %}
+
+Dane:
+
+Imię: {{ order.name }}
+Nazwisko: {{ order.surname }}
+Numer telefonu: {{ order.telephone }}
+Ulica: {{ order.street }}
+Numer: {{ order.number }}
+Miasto: {{ order.city }}
+Kod-pocztowy: {{ order.postcode }}
+Metoda dostarczenia: {{ order.delivery_method }}
+
+Cena z zastosowaniem kodu rabatowego oraz doliczeniu płatności za dostawę: {{ totalPrice }}zł.
+
+Zachęcamy do wystawienia opinii w sekcji 'moje konto'.
+{% endautoescape %}

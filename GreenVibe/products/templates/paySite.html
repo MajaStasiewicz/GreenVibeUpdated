@@ -1,0 +1,68 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{%static 'css/shop.css'%}">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+</head>
+
+<form class="dataFormOrderPay" action="{% url 'pay_submit' %}" method="POST">
+    {% csrf_token %}
+    <p class="payText colorRed">Proszę nie wprowadzać prawdziwych danych karty.</p>
+    <p class="payText colorRed">Dane testowe:</p>
+    <p class="payText colorRed">Numer karty: 4242 4242 4242 4242</p>
+    <p class="payText colorRed">Data ważności: losowa data w przyszłości</p>
+<p class="payText">KWOTA DO ZAPŁATY: {{ price }}zł</p>
+<input name="name" value="{{ name }}" type="hidden">
+<input name="surname" value="{{ surname }}" type="hidden">
+<input name="email" value="{{ email }}" type="hidden">
+<input name="telephone" value="{{ telephone }}" type="hidden">
+<input name="street" value="{{ street }}" type="hidden">
+<input name="number" value="{{ number }}" type="hidden">
+<input name="postcode" value="{{ postcode }}" type="hidden">
+<input name="city" value="{{ city }}" type="hidden">
+<input name="price" value="{{ price }}" type="hidden">
+<input name="delivery" value="{{ delivery }}" type="hidden">
+
+<div>
+    <b><p id="loading-overlay">Ładowanie...</p></b>
+</div>
+
+<div class="payCenter">
+    <script src="https://checkout.stripe.com/checkout.js" 
+    class="stripe-button" 
+    data-key="pk_test_51OSI7sFPjlUSYagTUUDX7n384Ham8qfjl2yrzHcUDNS7y5AQgCiElVxAMkYUbL5QRlq4guWRe52yIynAo9zA1mBF00UI2cgNV9" 
+    data-name="Green Vibe" data-description="płatność kartą" 
+    data-image="/static/images/logo.jpg" 
+    data-currency="PLN" 
+    data-locale="auto" 
+    data-label="PŁATNOŚĆ KARTĄ" 
+    data-panel-label="PŁACĘ"></script>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+            
+            var stripeButton = document.querySelector('.stripe-button-el');
+            if (stripeButton) {
+                stripeButton.classList.remove('stripe-button-el');
+                stripeButton.classList.add('buttonPay');
+                
+            }
+        }, 0.1); 
+
+        setTimeout(function () {
+            var loadingOverlay = document.getElementById('loading-overlay');
+           
+            
+                loadingOverlay.style.display = 'none';
+          
+        }, 1000); 
+    });
+</script>
+</form>
+
+{% endblock %}
+

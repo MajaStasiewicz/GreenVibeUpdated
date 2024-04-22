@@ -1,0 +1,135 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{%static 'css/products.css'%}">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+</head>
+
+<form method="GET" class="formSearch">
+    <label for="search_query">Szukaj:</label>
+    <input type="text" name="search_query" class="textBox" value="{% if search_query %}{{ search_query }}{% else %}{% endif %}">
+    <button type="submit" name="search_button" class="buttonSearch">szukaj</button>
+</form>
+
+<br>
+
+<div class="categoryCenter">
+    <span class="categoryCenter">KATEGORIE PRODUKTÓW:</span>
+</div>
+
+<div class="productMenuCategory">
+    {% for category in all_categories %}
+        <a href="/products/{{ category.name }}/"><button class="buttonProduct">{{ category }}</button></a>
+    {% endfor %}
+</div>
+
+<form method="POST" id="filter-form">
+    {% csrf_token %}
+    <div class="productMenu">
+        <select name="sorting" class="textBox2" required>
+            <option value="{{ filter_query }}">{{ filter_query }}</option>
+            {% if filter_query != "najniższa cena" %}
+                <option value="najniższa cena">najniższa cena</option>
+            {% endif %}
+            {% if filter_query != "najwyższa cena" %}
+                <option value="najwyższa cena">najwyższa cena</option>
+            {% endif %}
+            {% if filter_query != "najlepsze opinie" %}
+                <option value="najlepsze opinie">najlepsze opinie</option>
+            {% endif %}
+        </select>
+
+            <button name="sort_button" class="buttonSearch1">sortuj</button>
+            
+   <input type="hidden" value="{{ filter_flavour }}" name="flavour">
+        <input type="hidden" value="{{ price1 }}" name="priceSort1">
+        <input type="hidden" value="{{ price2 }}" name="priceSort2">
+    </div>
+</form>
+
+<div class="buttonContainer">
+    <button id="showFiltersButton" class="buttonSearch1">pokaż filtry</button>
+</div>
+
+<form method="POST" class="formFilter" id="formFilter" style="display: none;">
+    {% csrf_token %}
+<div class="productMenu">
+    <label>Cena:&nbsp;</label>
+    <span>Od:</span>
+    <input type="text" id="price1" name="price1" value="{{ price1 }}" class="textBox2">
+    <span>&nbsp;Do:</span>
+    <input type="text" id="price2" name="price2" value="{{ price2 }}" class="textBox2"> 
+</div>
+
+    <div class="productMenu">
+{% if category == 1 %}
+    <label for="id_flavour">Smak:</label>
+    <select id="id_flavour" name="flavourProducts" class="textBox2">
+        <option value="{{ filter_flavour }}">{{ filter_flavour }}</option>
+        {% for flavour in list_unique_flavours %}
+            {% if flavour != filter_flavour %}
+                <option value="{{ flavour }}">{{ flavour }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+{% endif %}
+    <br>
+    <button id="activeFilter" name="filter_button" class="buttonSearch1">filtruj</button>
+    <input type="hidden" value="{{ filter_query }}" name="sortingFilter">
+</div>
+</form>
+
+<div class="containerProducts">
+    {% for product in products %}
+    <a href="/moreP/{{ product.id }}/"><div class="containerProductsDetails">
+        <div class="containerDetailsName">{{ product.name }}</div>
+        <div class="containerDetails"><img src="{{ product.photo.url }}" width="160" height="260"></div>
+        <div class="containerDetailsName" data-price="{{ product.price}}">Cena: {{ product.price }}zł</div>
+    </div></a>
+    {% endfor %}
+</div>
+
+{% if products %}
+<div class="pagination">
+    <span class="step-links">
+        {% if products.has_previous %}
+            <a href="?page=1&sorting={{ sorting }}&price1={{ price1 }}&price2={{ price2 }}">&laquo; pierwsza</a>
+            <a href="?page={{ products.previous_page_number }}&sorting={{ sorting }}&price1={{ price1 }}&price2={{ price2 }}">poprzednia</a>
+        {% endif %}
+
+        <span class="page-info">
+            Strona {{ products.number }} z {{ products.paginator.num_pages }}
+        </span>
+
+        {% if products.has_next %}
+        <a href="?page={{ products.next_page_number }}&sorting={{ sorting }}&price1={{ price1 }}&price2={{ price2 }}">kolejna</a>
+        <a href="?page={{ products.paginator.num_pages }}&sorting={{ sorting }}&price1={{ price1 }}&price2={{ price2 }}">ostatnia &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+<div class="productMenu">
+    <p>BRAK PRODUKTÓW</p>
+</div>
+<br>
+<br>
+<br>
+{% endif %}
+
+
+<script>
+    var showFiltersButton = document.getElementById('showFiltersButton');
+    var formFilter = document.getElementById('formFilter');
+
+    showFiltersButton.addEventListener('click', function() {
+        formFilter.style.display = (formFilter.style.display === 'none' || formFilter.style.display === '') ? 'block' : 'none';
+
+        var buttonText = (formFilter.style.display === 'none' || formFilter.style.display === '') ? 'pokaż filtry' : 'ukryj filtry';
+        showFiltersButton.innerText = buttonText;
+    });
+</script>
+
+{% endblock %}
+

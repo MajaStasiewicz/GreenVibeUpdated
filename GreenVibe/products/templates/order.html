@@ -1,0 +1,148 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{%static 'css/shop.css'%}">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+</head>
+
+<div class="containerLogin">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="custom-alert">
+            {{message}}
+            <button class="close-button" aria-label="Close">×</button>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+
+    <form class="dataFormOrder" id="myForm" action="/paySite/" method="POST">
+        {% csrf_token %}
+        <b><p class="dataQuestion">Wprowadź dane:</p></b>
+<div class="orderAll">
+    <div class="orderLeft">
+        <p class="dataQuestion">Imię:</p>
+        <input class="dataOrder" name="name" type="textbox" value='{{ user_address.name }}' required>
+        <p class="dataQuestion">Nazwisko:</p>
+        <input class="dataOrder" name="surname" type="textbox" value='{{ user_address.surname }}' required>
+        <p class="dataQuestion">Email:</p>
+        <input class="dataOrder" name="email" type="email" value='{{ user_address.email }}' required>
+        <p class="dataQuestion">Telefon:</p>
+        <input class="dataOrder" name="telephone" type="tel" value='{{ user_address.telephone }}' pattern="[0-9]{9}" required title="Proszę wprowadzić numer telefonu składający się z 9 cyfr, bez spacji ani znaków specjalnych.">
+    </div>
+    <div class="orderRight">
+        <p class="dataQuestion">Ulica:</p>
+        <input class="dataOrder" name="street" type="textbox" value='{{ user_address.street }}' required>
+        <p class="dataQuestion">Numer:</p>
+        <input class="dataOrder" name="number" type="textbox" value='{{ user_address.number }}' required>
+        <p class="dataQuestion">Kod pocztowy:</p>
+        <input class="dataOrder" name="postcode" type="text" value='{{ user_address.postcode }}' pattern="[0-9]{2}-[0-9]{3}" required title="Proszę wprowadzić poprawny kod pocztowy w formacie XX-XXX, gdzie X to cyfry.">
+        <p class="dataQuestion">Miasto:</p>
+        <input class="dataOrder" name="city" type="textbox" value='{{ user_address.city }}' required>
+    </div>
+</div>
+<br>
+
+        <p class="dataQuestion">Sposób dostarczenia zamówienia:</p>
+           
+        {% for method in deliveryMethod %}
+            <input type="radio" value="{{ method.method }}" data-price="{{ method.price }}" name="delivery" required>
+            <label class="dataQuestion"><b>{{ method.price }}zł</b> {{ method.method }}</label><br>
+        {% endfor %}
+
+<br>
+        <input type="checkbox" name="checkbox" required>
+        <label for="checkbox" class="dataQuestion">Akceptuję regulamin.</label>
+{% if not newpricesave %}
+    {% if price %}
+        <p id="priceShow" class="dataQuestion">Suma zamówienia: {{ price }} zł</p>
+        <input type="hidden" id="price" name="price" value="{{ price }}">
+    {% else %}
+        <p id="priceShow" class="dataQuestion">Suma zamówienia: {{ total }} zł</p>
+        <input type="hidden" id="price" name="price" value="{{ total }}">
+    {% endif %}
+{% else %}
+<p id="priceShow" class="dataQuestion">Suma zamówienia: {{ newpricesave }} zł</p>
+<input type="hidden" id="price" name="price" value="{{ newpricesave }}">
+{% endif %}
+
+<input type="hidden" id="newPriceSave" name="newPriceSave" value="{{ price }}">
+        <button class="buttonContact" name="placeOrder">ZAMAWIAM I PRZECHODZĘ DO PŁATNOŚCI</button>  
+        
+        </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('myForm');
+    
+            form.addEventListener('change', function() {
+                var radios = document.getElementsByName('delivery');
+                var selectedOption;
+    
+                for (var i = 0; i < radios.length; i++) {
+                    if (radios[i].checked) {
+                        selectedOption = radios[i].value;
+                        break;
+                    }
+                }
+    
+                updatePrice(selectedOption);
+            });
+    
+            function updatePrice(selectedOption) {
+                var priceElementShow = document.getElementById('priceShow');
+                var priceText = document.getElementById('price').value;
+                var newPriceSave = document.getElementById('newPriceSave');
+                priceText = priceText.replace(',', '.');
+                
+                if (typeof originalPrice === 'undefined') {
+                    originalPrice = parseFloat(priceText.replace('Kwota: ', '').replace(' zł', ''));
+                }
+
+                var price;
+
+                var deliveryElements = document.querySelectorAll('input[name="delivery"]');
+                var defaultPrice = price;
+
+                var pricesMap = {};
+
+                for (var i = 0; i < deliveryElements.length; i++) {
+                    var value = deliveryElements[i].value;
+                    var dataPrice = parseFloat(deliveryElements[i].getAttribute('data-price'));
+
+                    pricesMap[value] = dataPrice;
+                }
+
+                price = originalPrice + pricesMap[selectedOption];
+
+                
+                if (selectedOption && pricesMap[selectedOption] !== undefined) {
+                    price = originalPrice + pricesMap[selectedOption];
+                } else {
+                    price = defaultPrice;
+                }
+
+                priceElementShow.innerText = 'Suma zamówienia: ' + price.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł'; 
+                
+                newPriceSave.value = parseFloat(price);
+            }
+        });
+    </script>
+    <script>
+        var closeButtons = document.querySelectorAll('.close-button');
+    
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var alert = this.closest('.custom-alert');
+                if (alert) {
+                    alert.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+{% endblock %}
+

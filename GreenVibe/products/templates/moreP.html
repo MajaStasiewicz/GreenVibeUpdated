@@ -1,0 +1,268 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{%static 'css/products.css'%}">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+</head>
+
+<div class="containerLogin">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="custom-alert">
+            {{message}}
+            <button class="close-button" aria-label="Close">×</button>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="loginFormMore">
+    <div class="moreInfo">
+<div class="moreLeft">
+
+<form id="myForm" method="POST">
+    {% csrf_token %}
+<div class="divMore">
+    <b class="dataQuestion">SZCZEGÓŁY PRODUKTU</b>  
+    {% if average == None %}
+    <p class="dataQuestion">PRODUKT NIE MA JESZCZE OCEN</p>
+    {% else %}
+    <p class="dataQuestion">ŚREDNIA OCEN: {{ average }}</p>
+    {% endif %}
+    <b class="dataQuestion" name="productName" value="{{ product.name }}">{{ product.name }}</b>
+    <div><img src="{{ product.photo.url }}" width="160" height="260"></div>
+</div>
+    <p class="dataQuestion" id="price" name="productPrice" value="{{ product.price }}">Cena: {{ product.price }} zł</p>
+
+    <input id="priceSend" type="hidden" name="priceSend" value="{{ product.price }}">
+        <p class="dataQuestion">Wybierz opcję:</p>
+        {% for productStr in productStorage %}
+            {% if productStr.storage == "0" %}
+                {% if forloop.first %}
+                    <input type="radio" value="{{ productStr.option }}" name="option" id="firstOption" data-price="{{ first_product_storage.price }}" data-storage="{{ first_product_storage }}" required checked>
+                    <label class="dataQuestion">{{ productStr.option }}</label><br>
+                {% else %}
+                <input type="radio" value="{{ productStr.option }}" name="option" data-price="{{ productStr.price }}" data-storage="{{ productStr.storage }}" required>
+                <label class="dataQuestion">{{ productStr.option }}</label><br>
+                {% endif %}
+            {% else %}
+                {% if forloop.first %}
+                    <input type="radio" value="{{ productStr.option }}" name="option" data-price="{{ first_product_storage.price }}" id="firstOption" data-storage="{{ first_product_storage }}" required checked>
+                    <label class="dataQuestion">{{ productStr.option }}</label><br>
+                {% else %}
+                <input type="radio" value="{{ productStr.option }}" name="option" data-price="{{ productStr.price }}" data-storage="{{ productStr.storage }}" required>
+                <label class="dataQuestion">{{ productStr.option }}</label><br>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+   
+
+    <form class="formProduct">
+        <label class="dataQuestion">Ilość sztuk:</label>
+        <label class="dataQuestion" value="1" name="quantity" id="quantity">1</label>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="hidden" value="1" name="quantitySend" id="quantitySend">
+        <button type="button" class="buttonAddRemove" id="add">+</button>
+        <button type="button" class="buttonAddRemove" id="delete">-</button>
+        <button class="buttonProduct" id="buttonAdd">dodaj do koszyka</button>
+    </form>
+</div>
+
+<div class="moreRight">
+    {% if product.flavour != "0" %}
+    <p class="dataQuestion"><b>Szczegóły:</b> {{ product.flavour }}</p>
+    {% endif %}
+
+    <p class="dataQuestion"><b>Opis:</b> {{ product.description }}</p>
+
+    {% if product.composition != "0" %}
+    <p class="dataQuestion"><b>Skład:</b> {{ product.composition }}</p>
+    {% endif %}
+
+    {% if product.usage != "0" %}
+    <p class="dataQuestion"><b>Dawkowanie:</b> {{ product.usage}}</p>
+    {% endif %}
+
+</form>
+</div>
+</div>
+</div>
+<div class="loginForm">
+{% if reviews %}
+    {% for review in reviews %}
+        <div class="comment-bubble">
+            <p class="comment-info">Data: {{ review.date }}</p>
+            <p class="comment-info">Autor: {{ review.user }}</p>
+            <p class="comment-info">Ocena: {{ review.rate }}</p>
+            <p class="comment-text">{{ review.comment }}</p>
+            
+            {% if username == review.user %}
+                <a href="/deleteReview/{{ review.id }}/" class="delete-link" onclick="return confirm('Czy na pewno chcesz usunąć komentarz?');">
+                    usuń ten komentarz
+                </a>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p class="dataQuestion">Brak recenzji...</p>
+{% endif %}
+</div>
+
+<script>
+    var firstOption = document.getElementById('firstOption');
+    var dataStorageValue = firstOption.getAttribute('data-storage');
+    var quantitySpan = document.getElementById('quantity');
+    var addButton = document.getElementById('add');
+    var deleteButton = document.getElementById('delete');
+    var quantitySend = document.getElementById('quantitySend');
+    var myButton = document.getElementById("buttonAdd");
+
+        if (parseInt(dataStorageValue) == 0)
+        {
+            updateQuantityFirst(0);   
+        }
+            
+
+    function updateQuantityFirst(change) {
+        quantitySpan.textContent = 0;
+        quantitySend.value = 0;
+        myButton.disabled = true;
+        myButton.innerHTML = "brak na magazynie";
+        myButton.classList.remove("buttonProduct");
+        myButton.classList.add("color-class");
+    }
+
+    addButton.addEventListener('click', function() {
+        var currentQuantity = parseInt(quantitySpan.textContent);
+
+        if (parseInt(dataStorageValue) > currentQuantity)
+        {
+            updateQuantity(1);
+        } else {
+            alert("Brak większej ilości na magazynie.");
+        }
+        
+    });
+  
+    deleteButton.addEventListener('click', function() {
+        if (parseInt(dataStorageValue) != 0)
+        {
+            updateQuantity(-1);
+        }
+    });
+
+    function updateQuantity(change) {
+        var currentQuantity = parseInt(quantitySpan.textContent);
+    
+        var newQuantity = currentQuantity + change;
+
+        newQuantity = Math.max(newQuantity, 1);
+    
+        quantitySpan.textContent = newQuantity;
+        quantitySend.value = newQuantity;
+    }
+
+    
+
+    document.addEventListener('DOMContentLoaded', function() {
+        price();
+    });
+
+    function price() {
+        var priceElement = document.getElementById('price');
+            var priceText = priceElement.innerText;
+            var priceElementSend = document.getElementById('priceSend');
+            
+            if (typeof originalPrice === 'undefined') {
+                originalPrice = parseFloat(priceText.replace('Cena: ', '').replace(' zł', ''));
+            }
+        priceElementSend.value = originalPrice;
+
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('myForm');
+        var quantitySpan = document.getElementById('quantity');
+
+        form.addEventListener('change', function() {
+            var radios = document.getElementsByName('option');
+            var selectedOption;
+            
+
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    selectedOption = radios[i].value;
+                    dataStorageValue = radios[i].getAttribute('data-storage');
+                    break;
+                }
+            }
+
+            if (parseInt(dataStorageValue) == 0)
+            {
+                updateQuantityFirst(0);
+            }
+            else {
+                quantitySpan.textContent = 1;
+                quantitySend.value = 1;
+                myButton.disabled = false;
+                myButton.innerHTML = "dodaj do koszyka";
+                myButton.classList.remove("color-class");
+                myButton.classList.add("buttonProduct");
+            }
+            
+            updatePrice(selectedOption);
+    });
+
+        function updatePrice(selectedOption) {
+            var priceElement = document.getElementById('price');
+            var priceText = priceElement.innerText;
+            var priceElementSend = document.getElementById('priceSend');
+
+            if (typeof originalPrice === 'undefined') {
+                originalPrice = parseFloat(priceText.replace('Cena: ', '').replace(' zł', ''));
+            }
+
+            var price;
+
+                var optionElements = document.querySelectorAll('input[name="option"]');
+                var defaultPrice = price;
+
+                var pricesMap = {};
+
+                for (var i = 0; i < optionElements.length; i++) {
+                    var value = optionElements[i].value;
+                    var dataPrice = parseFloat(optionElements[i].getAttribute('data-price'));
+
+                    pricesMap[value] = dataPrice;
+                }
+
+                price = pricesMap[selectedOption];
+
+                
+                if (isNaN(price)) {
+                    price = originalPrice;
+                    console.log(price);
+                }
+
+            priceElement.innerText = 'Cena: ' + price.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł'; 
+            priceElementSend.value = price;
+        }
+    });
+</script>
+
+<script>
+    var closeButtons = document.querySelectorAll('.close-button');
+
+    closeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var alert = this.closest('.custom-alert');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+{% endblock %}

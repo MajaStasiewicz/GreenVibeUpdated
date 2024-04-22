@@ -1,0 +1,257 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+  <link rel="stylesheet" href="{%static 'css/shop.css'%}">
+  <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+
+{% if user.is_authenticated %}
+<div class="containerCart">
+  
+  <div class="cart-header" id="cartHeader">
+    <b>PODSUMOWANIE</b>
+  </div>
+  <div class="cart-wrapper">
+
+    {% csrf_token %}
+    {% if products %}
+    <table class="product-table">
+      <thead>
+        <tr class="displayLabel">
+          <th>Nazwa produktu</th>
+          <th>Zdjęcie</th>
+          <th>Opcja</th>
+          <th>Ilość</th>
+          <th>Cena jednostkowa</th>
+        </tr>
+      </thead>
+      <tbody>     
+        <form method="POST">
+          {% csrf_token %}
+
+        {% for product in products %}
+        <tr class="product-item" id="productItem-{{ product.id }}">
+          <td>
+            
+              <div>
+                <span class="textColor">{{ product.product.name }}</span>
+                <br>
+                
+                
+              </div>
+       
+          </td>
+          <td>
+            <img src="{{ product.product.photo.url }}" width="60" height="100">
+          </td>
+          <td>
+            <span>Opcja: {{ product.option }}</span>
+          </td>
+          <td>
+            <span>Ilość: {{ product.quantity }}</span>
+          </td>
+          <td>
+
+            <span>Cena jednostkowa: {{ product.price }}</span>
+          </td>
+        
+         
+            {% for products in productStorage %}
+            {% if product.option == products.option %}
+              {% if product.product.id == products.product.id %}
+              <input type="hidden" value="{{ products.storage }}" data-product-id='{{ product.id }}' class="storage" id="productStorage">
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+         
+        </tr>
+        {% endfor %}
+      </form>
+      </tbody>
+    </table>
+    {% else %}
+    <div class="total-price">
+      <span>KOSZYK JEST PUSTY</span>
+    </div>
+    {% endif %}
+
+    <div class="total-price">
+      <b>&nbsp;&nbsp;<span value="{{ total }}">Suma: {{ total }}zł</span></b>
+    </div>
+
+
+    <div class="proceed-btn">
+     
+          <form method="POST" id="myForm">
+            {% csrf_token %}
+            <b><span>KOD RABATOWY</span></b><br>
+            
+            <input type="hidden" id="priceSend" name="price" value="{{ total }}">
+            <input type="hidden" name="newPrice" id="newPriceInput" value="">
+            <input type="text" id="code" class="textBoxCart">
+            <button id="submitCode" class="buttonReward">zastosuj</button>
+         <br>
+              <b><span name="newprice" id="price" value="{{ total }}">Suma z zastosowanym kodem: {{ total }}zł</span></b>
+           
+          </form>
+       <br>
+      {% if products %}
+      <button class="buttonReward" id="submitButton">dalej</button>
+      {% endif %}
+    </div>
+ 
+</div>
+</div>
+      
+ 
+{% else %}
+ 
+<div class="containerCart">
+  
+  <div class="cart-header" id="cartHeader">
+    <b>PODSUMOWANIE</b>
+  </div>
+  <div class="cart-wrapper">
+
+    {% csrf_token %}
+    {% if products %}
+    <table class="product-table">
+      <thead>
+        <tr class="displayLabel">
+          <th>Nazwa produktu</th>
+          <th>Zdjęcie</th>
+          <th>Opcja</th>
+          <th>Ilość</th>
+          <th>Cena jednostkowa</th>
+
+        </tr>
+      </thead>
+      <tbody>     
+        <form method="POST">
+          {% csrf_token %}
+
+        {% for product in products %}
+        <tr class="product-item" id="productItem-{{ product.id }}">
+          <td>
+            
+              <div>
+                <span class="textColor">{{ product.name }}</span>
+                <br>
+                
+                
+              </div>
+       
+          </td>
+          <td>
+            <img src="{{ product.photo }}" width="60" height="100">
+          </td>
+          <td>
+            <span>Opcja: {{ product.option }}</span>
+          </td>
+          <td>
+            <span>Ilość: {{ product.quantity }}</span>
+          </td>
+          <td>
+
+            <span>Cena jednostkowa: {{ product.price }}</span>
+          </td>
+        
+         
+            {% for products in productStorage %}
+            {% if product.option == products.option %}
+              {% if product.product.id == products.product.id %}
+              <input type="hidden" value="{{ products.storage }}" data-product-id='{{ product.id }}' class="storage" id="productStorage">
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+         
+        </tr>
+        {% endfor %}
+      </form>
+      </tbody>
+    </table>
+    {% else %}
+    <div class="total-price">
+      <span>KOSZYK JEST PUSTY</span>
+    </div>
+    {% endif %}
+
+    <div class="total-price">
+      <b>&nbsp;&nbsp;<span value="{{ total }}">Suma: {{ total }}zł</span></b>
+    </div>
+
+
+    <div class="proceed-btn">
+     
+          <form method="POST" id="myForm">
+            {% csrf_token %}
+            <b><span>KOD RABATOWY</span></b><br>
+            
+            <input type="hidden" id="priceSend" name="price" value="{{ total }}">
+            <input type="hidden" name="newPrice" id="newPriceInput" value="">
+            <input type="text" id="code" class="textBoxCart">
+            <button id="submitCode" class="buttonReward">zastosuj</button>
+         <br>
+              <b><span name="newprice" id="price" value="{{ total }}">Suma z zastosowanym kodem: {{ total }}zł</span></b>
+           
+          </form>
+       <br>
+      {% if products %}
+      <button class="buttonReward" id="submitButton">dalej</button>
+      {% endif %}
+    </div>
+ 
+</div>
+</div>
+
+{% endif %}
+
+<script>
+    
+    $(document).on('submit', '#myForm', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/cartSummary/',
+            data: {
+              code: $('#code').val(),
+              price: $('#priceSend').val(),
+              csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {
+              if (data.success) {
+                var codeInput = document.getElementById('code');
+                var submitButton = document.getElementById('submitCode');
+                var total_price = data.total.toFixed(2);
+                total_price = total_price.replace('.', ',');
+                $('#price').html('Suma z zastosowanym kodem: ' + total_price + 'zł'); 
+                $('#newPriceInput').val(total_price);
+                submitButton.disabled = true; 
+                codeInput.classList.add("codeValidate");
+                codeInput.disabled = true;
+              } else {
+                alert('Nieprawidłowy kod rabatowy');
+              }
+            },
+            error: function() {
+              alert('Podany kod jest niepoprawny.');
+            }
+        });
+    });
+</script>
+
+<script>
+  document.getElementById("submitButton").addEventListener("click", function() {
+      var newPrice = document.getElementById("newPriceInput");
+      var newPriceSave = newPrice.value;
+      window.location.href = '/order/?newPriceSave=' + encodeURIComponent(newPriceSave);
+  });
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,342 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+  <link rel="stylesheet" href="{%static 'css/shop.css'%}">
+  <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+</head>
+
+{% if user.is_authenticated %}
+<div class="containerCart">
+  <div class="cart-header" id="cartHeader">
+    <b>KOSZYK</b>
+  </div>
+  <div class="cart-wrapper">
+  <form method="POST">
+    {% csrf_token %}
+    {% if products %}
+    <table class="product-table">
+      <thead>
+        <tr class="displayLabel">
+          <th>Nazwa produktu</th>
+          <th>Zdjęcie</th>
+          <th>Opcja</th>
+          <th>Ilość</th>
+          <th>Cena jednostkowa</th>
+          <th>Operacje</th>
+        </tr>
+      </thead>
+      <tbody>      
+        {% for product in products %}
+        <tr class="product-item" id="productItem-{{ product.id }}">
+          <td>
+            <a href="/moreP/{{ product.product.id }}">
+              <div>
+                <span class="textColor">{{ product.product.name }}</span>
+                <br>
+                
+                
+              </div>
+            </a>
+          </td>
+          <td>
+            <img src="{{ product.product.photo.url }}" width="60" height="100">
+          </td>
+          <td>
+            <span>Opcja: {{ product.option }}</span>
+          </td>
+          <td>
+            <span value="1" data-product-id='{{ product.id }}' name="quantity" class="quantity">Ilość: <span class="quantityValue">{{ product.quantity }}</span></span>
+
+          </td>
+          <td>
+
+            <input type="hidden" id="originalPrice" value="{{ product.price }}">
+            <span id="price" name="productPrice" value="{{ product.price }}">Cena jednostkowa: {{ product.price }}zł</span>
+          </td>
+          <td>
+            <input type="hidden" value="{{ product.quantity }}" name="quantitySend" class="quantitySend">
+            <button type="button" class="buttonProduct delete" data-product-pk="{{ product.id }}" onclick="removeProduct('{{ product.id }}', '{{ product.price }}')">-</button>
+            <button type="button" class="buttonProduct add" data-product-pk="{{ product.id }}" onclick="addProduct('{{ product.id }}', '{{ product.price }}')">+</button>
+            <button type="submit" name="delete_product" value="{{ product.id }}" onclick="return confirm('Czy na pewno chcesz usunąć produkt?');">X</button>
+          </td>
+         
+            {% for products in productStorage %}
+            {% if product.option == products.option %}
+              {% if product.product.id == products.product.id %}
+              <input type="hidden" value="{{ products.storage }}" data-product-id='{{ product.id }}' class="storage" id="productStorage">
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+         
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="total-price">
+      <div class="payCenter">
+      <span>KOSZYK JEST PUSTY</span>
+    </div>
+    </div>
+    {% endif %}
+
+    <div class="total-price" id="totalPrice">
+      {% if total %}
+        {% if total != "0,00" %}
+        <b id="totalSum" value="{{ total }}">Suma: {{ total }}zł</b>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    <div class="proceed-btn">
+      {% if products %}
+      <button id="submit_button" class="buttonReward">dalej</button>
+      {% endif %}
+    </div>
+  </form>
+</div>
+</div>
+
+{% else %}
+<div class="containerCart">
+    <div class="cart-header" id="cartHeader">
+      <b>KOSZYK</b>
+    </div>
+    <div class="cart-wrapper">
+    <form method="POST">
+      {% csrf_token %}
+      {% if cart %}
+      <table class="product-table">
+        <thead>
+          <tr class="displayLabel">
+            <th>Nazwa produktu</th>
+            <th>Zdjęcie</th>
+            <th>Opcja</th>
+            <th>Ilość</th>
+            <th>Cena jednostkowa</th>
+            <th>Operacje</th>
+          </tr>
+        </thead>
+        <tbody>      
+          {% for product in cart %}
+          <tr class="product-item" id="productItem-{{ product.id }}">
+            <td>
+              <a href="/moreP/{{ product.id }}">
+                <div>
+                  <span class="textColor">{{ product.name }}</span>
+                  <br>
+                  
+                  
+                </div>
+              </a>
+            </td>
+            <td>
+              <img src="{{ product.photo }}" width="60" height="100">
+            </td>
+            <td>
+              <span>Opcja: {{ product.option }}</span>
+            </td>
+            <td>
+              <span value="1" data-product-id='{{ product.id }}' name="quantity" class="quantity">Ilość: <span class="quantityValue">{{ product.quantity }}</span></span>
+
+            </td>
+            <td>
+
+              <input type="hidden" id="originalPrice" value="{{ product.price }}">
+              <span id="price" name="productPrice" value="{{ product.price }}">Cena jednostkowa: {{ product.price }}zł</span>
+            </td>
+            <td>
+              <input type="hidden" value="{{ product.quantity }}" name="quantitySend" class="quantitySend">
+              <button type="button" class="buttonProduct delete" data-product-pk="{{ product.id }}" onclick="removeProduct('{{ product.id }}', '{{ product.price }}')">-</button>
+              <button type="button" class="buttonProduct add" data-product-pk="{{ product.id }}" onclick="addProduct('{{ product.id }}', '{{ product.price }}')">+</button>
+              <button type="submit" name="delete_product" value="{{ product.id }}" onclick="return confirm('Czy na pewno chcesz usunąć produkt?');">X</button>
+            </td>
+           
+              {% for item in productStorage %}
+              {% if product.option == item.option %}
+                {% if product.id == item.product.id %}
+                <input type="hidden" value="{{ item.storage }}" data-product-id='{{ product.id }}' class="storage" id="productStorage">
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+           
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="total-price">
+        <div class="payCenter">
+        <span>KOSZYK JEST PUSTY</span>
+      </div>
+      </div>
+      {% endif %}
+
+      <div class="total-price" id="totalPrice">
+        {% if total != "0,00" %}
+        <b id="totalSum" value="{{ total }}">Suma: {{ total }}zł</b>
+        {% endif %}
+      </div>
+
+      <div class="proceed-btn">
+        {% if cart %}
+        <button id="submit_button" class="buttonReward">dalej</button>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+{% endif %}
+
+
+<script>
+ function addProduct(productId, productPrice) {
+  var currentquantity = getQuantityForProduct(productId);
+  var storage = getStorageForProduct(productId);
+
+    if(storage != currentquantity)
+    {
+      var originalPriceElement = document.getElementById('originalPrice');
+      var priceElement = document.getElementById('price');
+      var priceElementSend = document.getElementById('priceSend');
+      var totalSumElement = document.getElementById('totalSum');
+
+      var totalSumValue = parseFloat(totalSumElement.innerText.replace(/[^\d.,]/g, '').replace(',', '.')) || 0;
+      
+      var originalPrice = parseFloat(originalPriceElement.value);
+      var currentPrice = parseFloat(priceElement.innerText.replace('Cena: ', '').replace('zł', ''));
+      var newPrice = currentPrice + originalPrice;
+
+      productPrice = productPrice.replace(',', '.');
+      totalSumValue += parseFloat(productPrice);
+      totalSumElement.innerText = 'Suma: ' + totalSumValue.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + 'zł';
+      
+      priceElementSend.value = newPrice; 
+    }
+  }
+ 
+function removeProduct(productId, productPrice) {
+    var originalPriceElement = document.getElementById('originalPrice');
+    var priceElement = document.getElementById('price');
+    var priceElementSend = document.getElementById('priceSend');
+    var totalSumElement = document.getElementById('totalSum');
+
+    var currentQuantity = getQuantityForProduct(productId);
+    
+    var totalSumValue = parseFloat(totalSumElement.innerText.replace(/[^\d.,]/g, '').replace(',', '.')) || 0;
+
+    var originalPrice = parseFloat(originalPriceElement.value);
+    var currentPrice = parseFloat(priceElement.innerText.replace('Cena: ', '').replace('zł', ''));
+    var newPrice = Math.max(currentPrice - originalPrice, originalPrice);
+    
+    if (currentQuantity != 1) {
+        productPrice = productPrice.replace(',', '.');
+        totalSumValue -= parseFloat(productPrice) || 0;
+        totalSumElement.innerText = 'Suma: ' + totalSumValue.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + 'zł';
+    } 
+    priceElementSend.value = newPrice;
+}
+
+function getQuantityForProduct(productId) {
+    var quantityElement = document.querySelector('.quantity[data-product-id="' + productId + '"] .quantityValue');
+    
+    if (!quantityElement) {
+        quantityElement = document.querySelector('.quantity .quantityValue');
+    }
+
+    if (quantityElement) {
+        var currentQuantity = parseFloat(quantityElement.textContent.trim());
+        return currentQuantity;
+    }
+
+    return 0;
+}
+
+function getStorageForProduct(productId) {
+    var storage = document.querySelector('.storage[data-product-id="' + productId + '"]');
+    var spr = storage.value;
+    console.error(spr);
+    if (!storage) {
+        storage = document.querySelector('.storage .storageValue');
+    }
+
+    if (storage) {
+        var storageValue = parseFloat(storage.value);
+        return storageValue;
+    }
+
+    return 0;
+}
+
+</script>
+
+<script>
+  var productItems = document.querySelectorAll('.product-item');
+
+  productItems.forEach(function(item) {
+    var quantitySpan = item.querySelector('.quantityValue');
+    var quantitySend = item.querySelector('.quantitySend');
+    var addButton = item.querySelector('.add');
+    var deleteButton = item.querySelector('.delete');
+
+    var currentQuantity = parseFloat(quantitySpan.textContent);
+
+    if (isNaN(currentQuantity)) {
+      console.error('Błąd: Nieprawidłowa wartość ilości.');
+    }
+
+    function updateQuantity(change, productPk) {
+      console.error(productPk);
+      var storage = getStorage(productPk);
+      var newQuantity = currentQuantity + change;
+      console.error(storage);
+      console.error(newQuantity);
+      if(storage >= newQuantity || change == -1)
+      {
+        newQuantity = Math.max(newQuantity, 1);
+
+        quantitySpan.textContent = newQuantity;
+        quantitySend.value = newQuantity;
+
+        currentQuantity = newQuantity;
+      } else {
+        alert("Brak większej ilości produktu w magazynie.");
+      }
+
+    }
+
+    addButton.addEventListener('click', function(event) {
+      var productPk = addButton.getAttribute('data-product-pk');
+      updateQuantity(1, productPk);
+    });
+
+    deleteButton.addEventListener('click', function(event) {
+      var productPk = addButton.getAttribute('data-product-pk');
+      updateQuantity(-1, productPk);
+    });
+  });
+
+  function getStorage(productId) {
+
+    var storage = document.querySelector('.storage[data-product-id="' + productId + '"]');
+    
+    if (!storage) {
+        storage = document.querySelector('.storage .storageValue');
+    }
+    
+    if (storage) {
+        
+        var storageValue = parseFloat(storage.value);
+        console.log(storageValue);
+        return storageValue;
+    }
+    
+    return 0;
+}
+
+</script>
+
+{% endblock %}
+

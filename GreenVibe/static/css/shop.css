@@ -1,0 +1,876 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&family=Cinzel+Decorative:wght@700;900&family=Lexend:wght@700&family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:wght@100;200;300&family=Akaya+Telivigala&family=Cinzel+Decorative:wght@700;900&family=Lexend:wght@700&family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&family=Cinzel+Decorative:wght@700;900&family=Lexend:wght@700&family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:wght@100;200;300&family=Akaya+Telivigala&family=Cinzel+Decorative:wght@700;900&family=Lexend:wght@700&family=Russo+One&display=swap');
+
+:root {
+    --primary-100: #DCDCDC;
+    --primary-200: #D3D3D3;
+    --primary-300: #C0C0C0;
+    --primary-400: #A9A9A9;
+    --primary-500: #808080;
+    --primary-600: #696969;
+    --primary-700: #778899;
+    --primary-800: #708090;
+    --primary-900: #2F4F4F;
+    --primary-1000: #000000;
+
+    --fontColor: var(--primary-1000);
+    --backgroundColor: var(--primary-100);
+    --bodyFont: 'Oswald', sans-serif;
+    --headerFont: 'Black Ops One', cursive;
+}
+
+body {
+    margin: 0;
+    color: var(--fontColor);
+    background-color: var(--backgroundColor);
+    line-height: 2rem;
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+    font-family: 'Arial Narrow', sans-serif;
+}
+
+.centerChoice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15%;
+    margin-bottom: 15%;
+}
+
+.buttonChoice {
+    padding: 1%;
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Arial Narrow', sans-serif;
+    margin-bottom: 1%;
+    border: none;
+    border-radius: 10px;
+    background-color: #347D39;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+.colorRed {
+    color: red;
+}
+
+.buttonPay {
+    padding-top: 1%;
+    padding-bottom: 0.6%;
+    padding-left: 1%;
+    padding-right: 1%;
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Arial Narrow', sans-serif;
+    margin-bottom: 1%;
+    border: none;
+    border-radius: 10px;
+    background-color: #347D39;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+#loading-overlay {
+    text-align: center;
+}
+
+.products {
+    margin-bottom: 100px;
+}
+
+.payCenter {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    text-align: center;
+}
+
+#title {
+    margin-top: 3%;
+}
+
+#overlaySite {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.title {
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Arial Narrow', sans-serif;
+}
+
+.data {
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Arial Narrow', sans-serif;
+}
+
+.buttonContact, .buttonContact2 {
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Arial Narrow', sans-serif;
+    margin-bottom: 1%;
+    border: none;
+    border-radius: 10px;
+    background-color: #347D39;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+.buttonContact2 {
+    padding: 2%;
+}
+
+.buttonContact {
+    padding: 1%;
+}
+
+#textArea {
+    resize: none;
+}
+.divSend {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#textArea,.email {
+    margin-bottom: 1%;
+    resize: none; 
+    overflow: hidden;
+    height: auto; 
+    padding: 1%;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-size: 18px;
+    font-family: 'Arial Narrow', sans-serif;
+    width: 40%;
+}
+
+@media screen and (max-width: 680px) {
+    #textArea,.email {
+        margin-bottom: 2%;
+        width: 70%;
+    }
+}
+
+.contactDiv {
+    margin-top: 3%;
+}
+
+.buttonReward {
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Arial Narrow', sans-serif;
+    margin-bottom: 1%;
+    padding: 1%;
+    border: none;
+    border-radius: 10px;
+    background-color: #347D39;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+.textBoxCart {
+    margin-bottom: 1%;
+    resize: none; 
+    overflow: hidden;
+    height: auto; 
+    padding: 1%;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-size: 18px;
+    font-family: 'Arial Narrow', sans-serif;
+    width: 20%;
+}
+
+.codeValidate {
+    color: white;
+    background-color: #000000;
+}
+
+.codeValidateButton {
+    color: white;
+    background-color: #3c3c3c;
+}
+
+.containerCart {
+    width: 80%;
+    margin: 20px auto;
+}
+  
+.cart-wrapper {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+}
+  
+.cart-header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+  
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+  
+.product-table th, .product-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+  
+.product-item {
+    display: table-row;
+}
+  
+.product-item > * {
+    display: table-cell;
+    vertical-align: middle;
+}
+  
+.product-item img {
+    max-width: 60px;
+    max-height: 100px;
+}
+  
+.textColor {
+    color: black;
+}
+  
+.buttonProduct,
+button[name="delete_product"] {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+  
+.buttonProduct:hover,
+button[name="delete_product"]:hover {
+    background-color: #c9302c;
+}
+  
+.total-price {
+    margin-top: 10px;
+}
+  
+#totalSum {
+    font-weight: bold;
+}
+  
+.proceed-btn {
+    margin-top: 10px;
+}
+  
+.proceed-btn {
+    margin-top: 15px;
+    text-align: right; 
+}
+  
+.total-price {
+    margin-top: 10px;
+    text-align: right; 
+}
+
+.containerCart {
+    margin-top: 5%;
+}
+
+@media only screen and (max-width: 768px) {
+    .textBoxCart {
+        width: 70%;
+    }
+    .displayLabel {
+      display: none;
+    }
+    .cart-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .product-table th,
+    .product-table td {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .product-item {
+      margin-bottom: 15px;
+    }
+    .product-item img {
+      max-width: 100%;
+      height: auto;
+    }
+    .quantity,
+    #price {
+      margin-top: 10px;
+    }
+    .buttonProduct,
+    .buttonCart,
+    button[name="delete_product"],
+    .buttonReward {
+      width: 100%;
+    }
+    .total-price,
+    .proceed-btn {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .proceed-btn {
+      margin-top: 15px;
+    }
+    .total-price b {
+      display: block;
+    }
+    .product-item span,
+    .product-item input {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .product-item div {
+      text-align: center; 
+    }
+}
+
+#orderHistoryContainer {
+    margin: 0 20px; 
+}
+
+.orderHistory {
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.orderHistory th,
+.orderHistory td {
+    text-align: left;
+    padding: 8px; 
+    border: 1px solid #ddd;
+}
+
+.orderHistory td {
+    width: 1%;
+}
+
+.orderHistory th {
+    background-color: #f2f2f2;
+}
+
+@media only screen and (max-width: 768px) {
+    .orderHistory td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+    .orderHistory tbody {
+        display: block; 
+    }
+    .orderHistory tr {
+        display: block;
+        border: 1px solid #ddd;
+        margin-bottom: 10px; 
+    }
+}
+
+.dataOrderLogin {
+    margin-bottom: 1%;
+    resize: none; 
+    overflow: hidden;
+    height: auto; 
+    padding: 1%;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-size: 18px;
+    font-family: 'Arial Narrow', sans-serif;
+    width: 30%;
+}
+
+.dataOrder {
+    margin-bottom: 1%;
+    resize: none; 
+    overflow: hidden;
+    height: auto; 
+    padding: 3%;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-size: 18px;
+    font-family: 'Arial Narrow', sans-serif;
+    width: 98%;
+}
+
+.dataFormOrder {
+    margin-top: 2%;
+    text-align: center;
+}
+
+.dataQuestion {
+    font-size: 20px;
+    font-family: 'Arial Narrow', sans-serif;
+}
+.orderAll {
+    margin-left: 30%;
+    margin-right: 30%;
+    overflow: hidden; 
+}
+.orderAllUser {
+    margin-right: 30%;
+    overflow: hidden; 
+}
+
+.orderRightUser {
+    display: flex;
+    justify-content: right;
+    margin-right: 30%;
+    padding: 2%; 
+}
+
+.orderLeft,
+.orderRight {
+    width: 48%; 
+    float: left;
+    box-sizing: border-box;
+    padding: 0 1%; 
+}
+
+.dataFormOrderPay {
+    margin-top: 4%;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .orderLeft,
+    .orderRight {
+        width: 100%;
+        float: none;
+        margin-left: 0;
+        box-sizing: border-box;
+        padding: 0;
+    }
+    .dataOrder {
+        width: 100%;
+    }
+    .orderAll {
+        margin-left: 10%;
+        margin-right: 10%;
+        width: 50%;
+    }
+    #orderHistoryContainer {
+        margin-left: 1%;
+        margin-right: 10%;
+        width: 50%;
+    }
+    .dataOrderLogin {
+       
+        width: 70%;
+    }
+    .hidden-on-mobile {
+        display: none;
+    }
+ 
+}
+
+.loginForm {
+    margin-left: 5%;
+    margin-bottom: 15%;
+}
+
+.dataRegistration,.dataRegistrationChange {
+    font-size: 20px;
+    font-family: 'Arial Narrow', sans-serif;
+}
+
+.dataRegistration label {
+    display: none; 
+}
+
+.dataRegistration input[type="text"],
+.dataRegistrationChange input[type="text"],
+.dataRegistration input[type="password"],
+.dataRegistrationChange input[type="password"],
+.dataRegistration input[type="email"] {
+    margin-bottom: 1%;
+    resize: none; 
+    overflow: hidden;
+    height: auto; 
+    padding: 1%;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-size: 18px;
+    font-family: 'Arial Narrow', sans-serif;
+    width: 30%;
+}
+
+@media screen and (max-width: 680px) {
+    .dataRegistration input[type="text"],
+    .dataRegistrationChange input[type="text"],
+    .dataRegistration input[type="password"],
+    .dataRegistrationChange input[type="password"],
+    .dataRegistration input[type="email"],
+    .dataOrder {
+        width: 70%;
+    }
+}
+
+.error {
+    color: rgb(121, 20, 20);
+}
+
+.containerLogin {
+    margin-top: 1%;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+}
+
+.custom-alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #efffbe; 
+    border-color: #81983e; 
+    color: #5f7811; 
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    position: relative;
+    text-align: center;
+    width: 200px;
+}
+
+.close-button {
+    padding: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.close-button:hover {
+    color: #43540d; 
+}
+
+.loginFormSuccess {
+    margin-left: 5%;
+    margin-bottom: 15%;
+}
+
+.orderHistory {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    margin-right: 5%;
+}
+
+.orderHistory p {
+    margin: 5px 0;
+}
+
+.popupReview {
+    display: flex;
+    justify-content: center;
+    width: 25%;
+    height: 40%;
+    border-radius: 50px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) scale(0.1);
+    text-align: center;
+    padding: 0 30px 30px;
+    color: #347D39;
+    background:  #347D39;
+    visibility: hidden;
+    transition: transform 0.4s, top 0.4s;
+    flex-wrap: wrap;
+    align-items: center;
+    position: fixed;
+    padding: 2%;
+}
+
+.open-popupReview {
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%,-50%) scale(1);
+}
+
+#myTextArea2 {
+    padding: 1%;
+    border-radius: 10px;
+    border: 1px solid black;
+    resize: none;
+    font-size: 15px;
+}
+
+@media only screen and (max-width: 768px) {
+    .popupReview {
+        width: 60%;
+        height: 60%;
+    }
+}
+
+.colorChange {
+    background-color: rgb(129, 214, 103);
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 8%; 
+    position: absolute; 
+    transform: translate(-50%, -50%);
+    top: 8%; 
+}
+
+.popup {
+    margin-top: 5%;
+    width: 500px;
+    height: 600px;
+    border-radius: 50px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) scale(0.1);
+    text-align: center;
+    padding: 0 30px 30px;
+    color:  #347D39;
+    background:  #347D39;
+    visibility: hidden;
+    transition: transform 0.4s, top 0.4s;
+    z-index: 2;
+}
+
+.textReward {
+    margin-bottom: 1%;
+    resize: none; 
+    overflow: hidden;
+    height: auto; 
+    padding: 1%;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-size: 18px;
+    font-family: 'Arial Narrow', sans-serif;
+    width: 30%;
+}
+
+.helpA {
+    color: white;
+}
+
+#setting {
+    color: black;
+    font-weight: bolder;
+}
+
+@media screen and (max-width: 680px) {
+    .popup {
+        width: 400px;
+        height: 600px;
+        padding: 0;
+        margin-top: 20%;
+    }
+    #wheel {
+        width: 50px;
+        height: 50px;
+        transform-origin: center;
+    }
+    .circle-avatarBlog {
+        width: 50px; 
+        height: 50px; 
+    }  
+    #rotate-button {
+        margin-top: 20%; 
+        top: 60%; 
+        left: 50%; 
+    }
+    .textReward {
+        width: 80%;
+        padding: 2%;
+    }
+}
+
+.circle-avatarBlog {
+    width: 100px; 
+    height: 100px; 
+    border-radius: 50%;
+    object-fit: cover; 
+}  
+
+.popupElement {
+    margin-top: 25%;
+    margin: 1%; 
+    flex: 0 0 calc(50% - 20px); 
+    box-sizing: border-box; 
+}
+
+.popupElement button {
+    width: 100%; 
+    margin: 2%;
+}
+
+#rotate-button {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 12%; 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(var(--rotation, 0deg));
+    }
+}
+
+.open-popup {
+    visibility: visible;
+    top: 40%;
+    transform: translate(-50%,-50%) scale(1);
+}
+
+#mark {
+    margin-top:0;
+    width:30px;
+    height:50px;
+}
+
+#wheel {
+    width: 400px;
+    height: 400px;
+    transform-origin: center;
+    transition: transform 5s ease-in-out; 
+}
+
+.postTopic {
+    color: black;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Arial Narrow', sans-serif;
+}
+
+.buttonPopupReview {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.buttonPopupHome {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 8%; 
+    position: absolute; 
+    transform: translate(-50%, -50%);
+    top: 8%; 
+}
+
+#myButton { 
+    left: 20%;   
+}
+
+#myButton2 {
+    left: 80%; 
+}
+
+.circle-avatar {
+    width: 100px; 
+    height: 100px; 
+    border-radius: 50%;
+    object-fit: cover; 
+}  
+
+.nav_fot {
+    pointer-events: none; 
+    opacity: 0.7; 
+}
+
+.footerText {
+    margin-top: 15%;
+    margin-bottom: 20%;
+    text-align: center;
+}
+.footerText2 {
+    margin-top: 12%;
+    margin-bottom: 12%;
+    text-align: center;
+}
+
+.rewardForm {
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Arial Narrow', sans-serif;
+    margin-top: 10%;
+    margin-bottom: 15%;
+}
+
+.rewardCount {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.dataFormOrderPay {
+    margin-top: 7%;
+    margin-bottom: 15%;
+}
+.payText {
+    text-align: center;
+}
+
+.banner-container {
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 50px; 
+    text-align: center;
+}
+
+.banner-image {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+

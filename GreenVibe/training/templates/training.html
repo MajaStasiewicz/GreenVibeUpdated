@@ -1,0 +1,49 @@
+{% extends 'navbar.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/training.css' %}">
+
+<h1 class="title">SEKCJA TRENINGOWA</h1>
+<div class="containerText">
+<p class="workout">
+Jeśli szukasz efektywnych i ciekawych ćwiczeń, które pomogą Ci osiągnąć twoje cele fitness to jesteś w idealnym miejscu!
+Poniżej znajdują się plany treningowe na różne partie ciała, które możesz zobaczyć na modelach.
+Ćwiczenia te są bardzo dobre zarówno dla początkujących jak i sportowców.
+Podana jest również przykładowa ilość serii i powtórzeń. Liczby te można modyfikować w zależności od własnych potrzeb.
+To idealny dzień, aby rozpocząć drogę do zdrowszego i aktywniejszego życia. Powodzenia!
+</p>
+</div>
+
+{% for x in videos %}
+<div class="container">
+<section class="elements">
+    <div class="element">
+        <video width="{{ x.width }}" height="{{ x.height }}" class="embed-responsive embed-responsive-16by9" controls="controls" autoplay loop muted>
+            <source src="{{x.videoWoman.url}}" type="video/mp4" />
+        </video>
+    </div>
+
+    <p class="element text">
+        <b><span>{{ x.title }}</span></b>
+        <br>
+        {{ x.description|linebreaksbr }}
+    </p>
+
+    <div class="element">
+        <video width="{{ x.width }}" height="{{ x.height }}" class="embed-responsive embed-responsive-16by9" controls="controls" autoplay loop muted>
+            <source src="{{x.videoMan.url}}" type="video/mp4" />
+        </video>
+    </div>
+</section>
+
+</div>
+
+{% endfor %}
+
+<br>
+<br>
+<br>
+<div class="container">
+<p>Modele zostały pobrane ze strony www.turbosquid.com.</p>
+</div>
+{% endblock %}

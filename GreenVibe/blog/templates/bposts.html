@@ -1,0 +1,76 @@
+{% extends 'music.html' %}
+{% block contentMusic %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+<div class="containerLogin">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="custom-alert">
+            {{message}}
+            <button class="close-button" aria-label="Close">×</button>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+{% if latestPost %}
+    <div class="containerBlog">
+        <div class="latest-post">
+            <p>Najnowszy post:</p>
+                <p>Autor: {{ latestPost.user }}</p>
+                <p>Data: {{ latestPost.created_at }}</p>
+                <p>Ocena: {{ latestPost.average }}</p>
+                <p>Dział: {{ latestPost.topic }}</p>
+                <b><p id="postTitle">Tytuł: {{ latestPost.title }}</p></b>
+                <p>Post: {{ latestPost.body|slice:":500" }}</p>
+                <a class="readMore" href="/more/{{ latestPost.id }}/">
+                    czytaj dalej...
+                </a>
+        </div>
+{% else %}
+        <div class="latest-post">
+            <p>Brak postów...</p>
+        </div>
+{% endif %}
+
+{% if posts %}
+    <div class="other-posts">
+        <p>Kolejne posty:</p>
+            {% for post in posts %}
+                <p>Autor: {{ post.user }}</p>
+                <p>Data: {{ post.created_at }}</p>
+                <p>Ocena: {{ post.average }}</p>
+                <p>Dział: {{ post.topic }}</p>
+                <b><p id="postTitleOther">Tytuł: {{ post.title }}</p></b>
+                <p>Post: {{ post.body|slice:":100" }}</p>  
+                <a class="readMore" href="/more/{{ post.id }}/">
+                    czytaj dalej...
+                </a>
+                <br>
+            {% endfor %}
+                <a href="/allPosts/">ZOBACZ WSZYSTKIE POSTY</a>
+    </div>
+{% else %}
+    <div class="other-posts">
+        <p>Brak postów...</p>
+    </div>
+{% endif %}   
+    </div>
+
+    <script>
+        var closeButtons = document.querySelectorAll('.close-button');
+    
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var alert = this.closest('.custom-alert');
+                if (alert) {
+                    alert.style.display = 'none'; 
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+
+

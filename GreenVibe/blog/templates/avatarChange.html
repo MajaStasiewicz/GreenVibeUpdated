@@ -1,0 +1,14 @@
+{% extends 'music.html' %}
+{% block contentMusic %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+      
+<form class="my-form" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="buttonBlog" type="submit">zapisz zmiany</button>
+</form>
+  
+{% endblock %}
+
+

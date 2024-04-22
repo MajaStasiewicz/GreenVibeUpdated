@@ -1,0 +1,73 @@
+{% extends 'music.html' %}
+{% block contentMusic %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<div class="postsDiv">
+<form method="POST">
+    {% csrf_token %}
+<br>
+<p class="postCreate">STWÓRZ WŁASNY POST</p>
+<br>
+<label class="postTopic" for="topic">Wybierz temat:</label>
+<br>
+
+<select class="postTopicChoice" name="topic" required>
+        <option value="">-- Wybierz temat --</option>
+    {% for room in rooms %}
+        <option value="{{ room.name }}">{{ room.name }}</option>
+    {% endfor %}
+</select>
+
+<br>
+<br>
+<label class="postTopic">Tytuł: </label>
+<br>
+<input class="postTitle" type="text" name="title" maxlength="80" required>
+
+<br>
+<br>
+<label class="postTopic">Treść: </label>
+<br>
+<textarea id="myTextArea" rows="6" cols="60" name="body" maxlength="5000" required></textarea>
+
+<button class="submit_button" id="submit_button" onclick="postCreateButton()">opublikuj</button>
+</form>
+</div>
+    <script>
+        window.addEventListener('beforeunload', function (e) {
+            if (!submitClicked) {
+                e.preventDefault();
+                e.returnValue = ''; 
+                var confirmationMessage = 'Czy na pewno chcesz opuścić tę stronę?';
+                (e || window.event).returnValue = confirmationMessage;
+                return confirmationMessage;
+            }
+        });
+    
+        var submitClicked = false;
+
+        document.getElementById('submit_button').addEventListener('click', function () {
+            submitClicked = true; 
+        });
+    </script>
+<script>
+    function postCreateButton() {
+     
+        var titleValue = document.getElementsByName("title")[0].value;
+        var bodyValue = document.getElementsByName("body")[0].value;
+    
+        if (titleValue.trim() === "" || bodyValue.trim() === "") {
+
+    alert("Tytuł i treść nie mogą zawierać samych białych znaków.");
+    event.preventDefault();
+   
+    return false;
+}
+      
+        return true;
+    }
+</script>
+{% endblock %}

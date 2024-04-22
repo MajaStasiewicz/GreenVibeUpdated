@@ -1,0 +1,175 @@
+{% extends 'music.html' %}
+{% block contentMusic %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+<button class="buttonBlog" onclick="confirmDelete()">WYCZYŚĆ KALENDARZ</button>
+
+<script>
+function confirmDelete() {
+    var confirmDelete = confirm("Czy na pewno chcesz usunąć wszystkie wydarzenia?");
+    if (confirmDelete) {
+        window.location.href = "/deletePlanner/";  
+    }
+}
+</script>
+
+<div class="center-container">
+    <div class="day">
+        <p>WYDARZENIA</p>
+        <button class="buttonPlannerW">1.</button>
+        <button class="buttonPlannerW">2.</button>
+        <button class="buttonPlannerW">3.</button>
+        <button class="buttonPlannerW">4.</button>
+        <button class="buttonPlannerW">5.</button>
+        <button class="buttonPlannerW">6.</button>
+        <button class="buttonPlannerW">7.</button>
+        <button class="buttonPlannerW">8.</button>
+        <button class="buttonPlannerW">9.</button>
+        <button class="buttonPlannerW">10.</button>
+    </div>
+
+    <div class="day">
+        <p>PON</p>
+        <button class="buttonPlanner" id="M1" data-text="{{ plannersM.M1.value }}" onclick="openPopupPlanner('M1')">{{ plannersM.M1.title }}</button>
+        <button class="buttonPlanner" id="M2" data-text="{{ plannersM.M2.value }}" onclick="openPopupPlanner('M2')">{{ plannersM.M2.title }}</button>
+        <button class="buttonPlanner" id="M3" data-text="{{ plannersM.M3.value }}" onclick="openPopupPlanner('M3')">{{ plannersM.M3.title }}</button>
+        <button class="buttonPlanner" id="M4" data-text="{{ plannersM.M4.value }}" onclick="openPopupPlanner('M4')">{{ plannersM.M4.title }}</button>
+        <button class="buttonPlanner" id="M5" data-text="{{ plannersM.M5.value }}" onclick="openPopupPlanner('M5')">{{ plannersM.M5.title }}</button>
+        <button class="buttonPlanner" id="M6" data-text="{{ plannersM.M6.value }}" onclick="openPopupPlanner('M6')">{{ plannersM.M6.title }}</button>
+        <button class="buttonPlanner" id="M7" data-text="{{ plannersM.M7.value }}" onclick="openPopupPlanner('M7')">{{ plannersM.M7.title }}</button>
+        <button class="buttonPlanner" id="M8" data-text="{{ plannersM.M8.value }}" onclick="openPopupPlanner('M8')">{{ plannersM.M8.title }}</button>
+        <button class="buttonPlanner" id="M9" data-text="{{ plannersM.M9.value }}" onclick="openPopupPlanner('M9')">{{ plannersM.M9.title }}</button>
+        <button class="buttonPlanner" id="M10" data-text="{{ plannersM.M10.value }}" onclick="openPopupPlanner('M10')">{{ plannersM.M10.title }}</button>
+    </div>
+
+    <div class="day">
+        <p>WT</p>
+        <button class="buttonPlanner" id="TU1" data-text="{{ plannersTU.TU1.value }}" onclick="openPopupPlanner('TU1')">{{ plannersTU.TU1.title }}</button>
+        <button class="buttonPlanner" id="TU2" data-text="{{ plannersTU.TU2.value }}" onclick="openPopupPlanner('TU2')">{{ plannersTU.TU2.title }}</button>
+        <button class="buttonPlanner" id="TU3" data-text="{{ plannersTU.TU3.value }}" onclick="openPopupPlanner('TU3')">{{ plannersTU.TU3.title }}</button>
+        <button class="buttonPlanner" id="TU4" data-text="{{ plannersTU.TU4.value }}" onclick="openPopupPlanner('TU4')">{{ plannersTU.TU4.title }}</button>
+        <button class="buttonPlanner" id="TU5" data-text="{{ plannersTU.TU5.value }}" onclick="openPopupPlanner('TU5')">{{ plannersTU.TU5.title }}</button>
+        <button class="buttonPlanner" id="TU6" data-text="{{ plannersTU.TU6.value }}" onclick="openPopupPlanner('TU6')">{{ plannersTU.TU6.title }}</button>
+        <button class="buttonPlanner" id="TU7" data-text="{{ plannersTU.TU7.value }}" onclick="openPopupPlanner('TU7')">{{ plannersTU.TU7.title }}</button>
+        <button class="buttonPlanner" id="TU8" data-text="{{ plannersTU.TU8.value }}" onclick="openPopupPlanner('TU8')">{{ plannersTU.TU8.title }}</button>
+        <button class="buttonPlanner" id="TU9" data-text="{{ plannersTU.TU9.value }}" onclick="openPopupPlanner('TU9')">{{ plannersTU.TU9.title }}</button>
+        <button class="buttonPlanner" id="TU10" data-text="{{ plannersTU.TU10.value }}" onclick="openPopupPlanner('TU10')">{{ plannersTU.TU10.title }}</button>
+    </div>
+
+    <div class="day">
+        <p>ŚR</p>
+        <button class="buttonPlanner" id="W1" data-text="{{ plannersW.W1.value }}" onclick="openPopupPlanner('W1')">{{ plannersW.W1.title }}</button>
+        <button class="buttonPlanner" id="W2" data-text="{{ plannersW.W2.value }}" onclick="openPopupPlanner('W2')">{{ plannersW.W2.title }}</button>
+        <button class="buttonPlanner" id="W3" data-text="{{ plannersW.W3.value }}" onclick="openPopupPlanner('W3')">{{ plannersW.W3.title }}</button>
+        <button class="buttonPlanner" id="W4" data-text="{{ plannersW.W4.value }}" onclick="openPopupPlanner('W4')">{{ plannersW.W4.title }}</button>
+        <button class="buttonPlanner" id="W5" data-text="{{ plannersW.W5.value }}" onclick="openPopupPlanner('W5')">{{ plannersW.W5.title }}</button>
+        <button class="buttonPlanner" id="W6" data-text="{{ plannersW.W6.value }}" onclick="openPopupPlanner('W6')">{{ plannersW.W6.title }}</button>
+        <button class="buttonPlanner" id="W7" data-text="{{ plannersW.W7.value }}" onclick="openPopupPlanner('W7')">{{ plannersW.W7.title }}</button>
+        <button class="buttonPlanner" id="W8" data-text="{{ plannersW.W8.value }}" onclick="openPopupPlanner('W8')">{{ plannersW.W8.title }}</button>
+        <button class="buttonPlanner" id="W9" data-text="{{ plannersW.W9.value }}" onclick="openPopupPlanner('W9')">{{ plannersW.W9.title }}</button>
+        <button class="buttonPlanner" id="W10" data-text="{{ plannersW.W10.value }}" onclick="openPopupPlanner('W10')">{{ plannersW.W10.title }}</button>
+    </div>
+
+    <div class="day">
+        <p>CZW</p>
+        <button class="buttonPlanner" id="TH1" data-text="{{ plannersTH.TH1.value }}" onclick="openPopupPlanner('TH1')">{{ plannersTH.TH1.title }}</button>
+        <button class="buttonPlanner" id="TH2" data-text="{{ plannersTH.TH2.value }}" onclick="openPopupPlanner('TH2')">{{ plannersTH.TH2.title }}</button>
+        <button class="buttonPlanner" id="TH3" data-text="{{ plannersTH.TH3.value }}" onclick="openPopupPlanner('TH3')">{{ plannersTH.TH3.title }}</button>
+        <button class="buttonPlanner" id="TH4" data-text="{{ plannersTH.TH4.value }}" onclick="openPopupPlanner('TH4')">{{ plannersTH.TH4.title }}</button>
+        <button class="buttonPlanner" id="TH5" data-text="{{ plannersTH.TH5.value }}" onclick="openPopupPlanner('TH5')">{{ plannersTH.TH5.title }}</button>
+        <button class="buttonPlanner" id="TH6" data-text="{{ plannersTH.TH6.value }}" onclick="openPopupPlanner('TH6')">{{ plannersTH.TH6.title }}</button>
+        <button class="buttonPlanner" id="TH7" data-text="{{ plannersTH.TH7.value }}" onclick="openPopupPlanner('TH7')">{{ plannersTH.TH7.title }}</button>
+        <button class="buttonPlanner" id="TH8" data-text="{{ plannersTH.TH8.value }}" onclick="openPopupPlanner('TH8')">{{ plannersTH.TH8.title }}</button>
+        <button class="buttonPlanner" id="TH9" data-text="{{ plannersTH.TH9.value }}" onclick="openPopupPlanner('TH9')">{{ plannersTH.TH9.title }}</button>
+        <button class="buttonPlanner" id="TH10" data-text="{{ plannersTH.TH10.value }}" onclick="openPopupPlanner('TH10')">{{ plannersTH.TH10.title }}</button>
+    </div>
+
+    <div class="day">
+        <p>PT</p>
+        <button class="buttonPlanner" id="F1" data-text="{{ plannersF.F1.value }}" onclick="openPopupPlanner('F1')">{{ plannersF.F1.title }}</button>
+        <button class="buttonPlanner" id="F2" data-text="{{ plannersF.F2.value }}" onclick="openPopupPlanner('F2')">{{ plannersF.F2.title }}</button>
+        <button class="buttonPlanner" id="F3" data-text="{{ plannersF.F3.value }}" onclick="openPopupPlanner('F3')">{{ plannersF.F3.title }}</button>
+        <button class="buttonPlanner" id="F4" data-text="{{ plannersF.F4.value }}" onclick="openPopupPlanner('F4')">{{ plannersF.F4.title }}</button>
+        <button class="buttonPlanner" id="F5" data-text="{{ plannersF.F5.value }}" onclick="openPopupPlanner('F5')">{{ plannersF.F5.title }}</button>
+        <button class="buttonPlanner" id="F6" data-text="{{ plannersF.F6.value }}" onclick="openPopupPlanner('F6')">{{ plannersF.F6.title }}</button>
+        <button class="buttonPlanner" id="F7" data-text="{{ plannersF.F7.value }}" onclick="openPopupPlanner('F7')">{{ plannersF.F7.title }}</button>
+        <button class="buttonPlanner" id="F8" data-text="{{ plannersF.F8.value }}" onclick="openPopupPlanner('F8')">{{ plannersF.F8.title }}</button>
+        <button class="buttonPlanner" id="F9" data-text="{{ plannersF.F9.value }}" onclick="openPopupPlanner('F9')">{{ plannersF.F9.title }}</button>
+        <button class="buttonPlanner" id="F10" data-text="{{ plannersF.F10.value }}" onclick="openPopupPlanner('F10')">{{ plannersF.F10.title }}</button>
+    </div>
+
+    <div class="day">
+        <p>SB</p>
+        <button class="buttonPlanner" id="SA1" data-text="{{ plannersSA.SA1.value }}" onclick="openPopupPlanner('SA1')">{{ plannersSA.SA1.title }}</button>
+        <button class="buttonPlanner" id="SA2" data-text="{{ plannersSA.SA2.value }}" onclick="openPopupPlanner('SA2')">{{ plannersSA.SA2.title }}</button>
+        <button class="buttonPlanner" id="SA3" data-text="{{ plannersSA.SA3.value }}" onclick="openPopupPlanner('SA3')">{{ plannersSA.SA3.title }}</button>
+        <button class="buttonPlanner" id="SA4" data-text="{{ plannersSA.SA4.value }}" onclick="openPopupPlanner('SA4')">{{ plannersSA.SA4.title }}</button>
+        <button class="buttonPlanner" id="SA5" data-text="{{ plannersSA.SA5.value }}" onclick="openPopupPlanner('SA5')">{{ plannersSA.SA5.title }}</button>
+        <button class="buttonPlanner" id="SA6" data-text="{{ plannersSA.SA6.value }}" onclick="openPopupPlanner('SA6')">{{ plannersSA.SA6.title }}</button>
+        <button class="buttonPlanner" id="SA7" data-text="{{ plannersSA.SA7.value }}" onclick="openPopupPlanner('SA7')">{{ plannersSA.SA7.title }}</button>
+        <button class="buttonPlanner" id="SA8" data-text="{{ plannersSA.SA8.value }}" onclick="openPopupPlanner('SA8')">{{ plannersSA.SA8.title }}</button>
+        <button class="buttonPlanner" id="SA9" data-text="{{ plannersSA.SA9.value }}" onclick="openPopupPlanner('SA9')">{{ plannersSA.SA9.title }}</button>
+        <button class="buttonPlanner" id="SA10" data-text="{{ plannersSA.SA10.value }}" onclick="openPopupPlanner('SA10')">{{ plannersSA.SA10.title }}</button>
+    </div>
+
+    <div class="day">
+        <p>ND</p>
+        <button class="buttonPlanner" id="SU1" data-text="{{ plannersSU.SU1.value }}" onclick="openPopupPlanner('SU1')">{{ plannersSU.SU1.title }}</button>
+        <button class="buttonPlanner" id="SU2" data-text="{{ plannersSU.SU2.value }}" onclick="openPopupPlanner('SU2')">{{ plannersSU.SU2.title }}</button>
+        <button class="buttonPlanner" id="SU3" data-text="{{ plannersSU.SU3.value }}" onclick="openPopupPlanner('SU3')">{{ plannersSU.SU3.title }}</button>
+        <button class="buttonPlanner" id="SU4" data-text="{{ plannersSU.SU4.value }}" onclick="openPopupPlanner('SU4')">{{ plannersSU.SU4.title }}</button>
+        <button class="buttonPlanner" id="SU5" data-text="{{ plannersSU.SU5.value }}" onclick="openPopupPlanner('SU5')">{{ plannersSU.SU5.title }}</button>
+        <button class="buttonPlanner" id="SU6" data-text="{{ plannersSU.SU6.value }}" onclick="openPopupPlanner('SU6')">{{ plannersSU.SU6.title }}</button>
+        <button class="buttonPlanner" id="SU7" data-text="{{ plannersSU.SU7.value }}" onclick="openPopupPlanner('SU7')">{{ plannersSU.SU7.title }}</button>
+        <button class="buttonPlanner" id="SU8" data-text="{{ plannersSU.SU8.value }}" onclick="openPopupPlanner('SU8')">{{ plannersSU.SU8.title }}</button>
+        <button class="buttonPlanner" id="SU9" data-text="{{ plannersSU.SU9.value }}" onclick="openPopupPlanner('SU9')">{{ plannersSU.SU9.title }}</button>
+        <button class="buttonPlanner" id="SU10" data-text="{{ plannersSU.SU10.value }}" onclick="openPopupPlanner('SU10')">{{ plannersSU.SU10.title }}</button>
+    </div>
+</div>
+
+<div class="popupPlanner" id="popupPlanner">
+    <p class="postTopic">Tytuł:</p>
+    <input type="text" id="myText" maxlength="16"><br>
+    <p class="postTopic">Treść:</p>
+    <textarea id="myTextArea" rows="8" cols="40" name="body" maxlength="400"></textarea><br>
+    <button id="closePopupButton" class="buttonPopupReview" onclick="closePopupPlanner()">zapisz</button>
+    <button id="escapePopupButton" class="buttonPopupReview" onclick="escapePlanner()">wyjdź</button>
+</div>
+
+<script>
+    let popupPlanner = document.getElementById("popupPlanner");
+
+    function escapePlanner() {
+        popupPlanner.classList.remove("open-popupPlanner");
+    }
+
+    const textarea = document.getElementById('myTextArea');
+    const textbox = document.getElementById('myText');
+    var clickedbuttonId = '';
+        function openPopupPlanner(buttonId) {
+            clickedbuttonId = buttonId;
+            
+            const button = document.getElementById('buttonId'); 
+            textbox.value = document.getElementById(clickedbuttonId).textContent;
+
+            var button1 = document.getElementById(buttonId);
+
+            var textarea1 = document.getElementById('myTextArea');
+
+            var textToDisplay = button1.getAttribute("data-text");
+
+            textarea1.value = textToDisplay;
+            
+            popupPlanner.classList.add("open-popupPlanner");
+        }
+        function closePopupPlanner() {
+            var textarea1 = textarea.value;
+            var textbox1 = textbox.value;
+            popupPlanner.classList.remove("open-popupPlanner");
+            window.location.href = '/plannerSave/?textarea=' + textarea1 + '&textbox=' + textbox1 + '&buttonId=' + clickedbuttonId;
+        }
+</script>
+
+{% endblock %}
+

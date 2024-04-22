@@ -1,0 +1,139 @@
+{% extends 'music.html' %}
+{% block contentMusic %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.js"></script>
+
+<div class="postsDiv">
+    <div class="nameMessanger">
+        <p class="roomName">{{ roomN.name }}</p>
+    </div>
+    <div id="allMessanger" class="allMessanger">
+  
+   
+        <div id="display">
+            <div id="container-darker" class="container-darker"></div>
+        </div>
+  
+  
+        <form id="post-form">
+            {% csrf_token %}
+            <input type="hidden" id="username" name="username" value="{{username}}">
+            <input type="hidden" id="room_id" value="{{room}}">
+            <div class="containerMessages">
+              <textarea name="message" id="message" class="message" rows="1" cols="50" maxlength="10000"
+                          required></textarea>
+  
+              <input id="send_button" class="buttonSendMessage" onclick="postCreateButton()" type="submit">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function postCreateButton() {
+        var commentValue = document.getElementsByName("message")[0].value;
+    
+        if (commentValue.trim() === "") {
+            alert("Wiadomość nie może zawierać samych białych znaków.");
+            event.preventDefault();
+            return false;
+        }
+        return true;
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        var allMessanger = $('#allMessanger');
+
+        var update = true;
+
+        function scrollToBottom() {
+                if (update) {
+                    allMessanger.scrollTop(allMessanger[0].scrollHeight);
+                    scrollExecuted = true;
+                    console.log("Scroll executed");
+                }
+        }
+
+        $(document).on('submit', '#post-form', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '/send/',
+                data: {
+                    user: $('#username').attr('value'),
+                    message: $('#message').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function (data) {
+                    $('#message').val('');
+                    $('h2').html(data);
+                    update = true;
+                    scrollToBottom();
+                }
+            });
+
+            var emojioneArea = $("#message").data("emojioneArea");
+            emojioneArea.setText("");
+        });
+
+        setInterval(function () {
+            $.ajax({
+                type: 'GET',
+                url: "/getMessages/{{room}}/",
+                success: function (response) {
+                    $("#display").empty();
+                    for (var key in response.messages) {
+                        if (response.messages[key].user__username == response.messages[key].user) {
+                            var temp = "<div class='thisUser'><span>" + response.messages[key].user__username + " " + "</span><span class='time-left'>" + response.messages[key].date + "</span>" + "<br><b class='messageText'>" + response.messages[key].value + "</b></div>";
+                            $("#display").append(temp);
+                        } else {
+                            var temp = "<div class='container-darker'><span>" + response.messages[key].user__username + " " + "</span><span class='time-left'>" + response.messages[key].date + "</span>" + "<br><b class='messageText'>" + response.messages[key].value + "</b></div>";
+                            $("#display").append(temp);
+                        }
+                    }
+  
+                    scrollToBottom();
+                    update = false;
+                },
+                error: function (response) {
+                    $("#display").html("<br><br><span>Brak wiadomości.</span>");
+                }
+            });
+        }, 1000);
+
+        $('#message').on('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                $('#post-form').submit();
+                return false;
+            }
+        });
+
+        $("#message").emojioneArea({
+            pickerPosition: "top",
+        });
+    });
+</script>
+
+<script>
+  
+    $(document).ready(function() {
+        var textarea = $('#message');
+            
+        textarea.on('input', function () {
+            this.style.height = 'auto'; 
+            this.style.height = (this.scrollHeight) + 'px'; 
+        });
+    });
+  
+</script>
+
+{% endblock %}
+
+

@@ -1,0 +1,64 @@
+{% extends 'music.html' %}
+{% block contentMusic %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="custom-alert">
+                <span>{{message}}</span>
+                <button class="close-button" aria-label="Close">×</button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+<div class="postsDiv">
+<span>MOJE KONTO</span>
+<br>
+<span>{{ user.username }}</span>
+<br>
+{% if user_profile.avatar %}
+    <img src="{{ user_profile.avatar.url }}" class="circle-avatar">
+{% else %}
+    <img src="{% static 'images/avatarUser.jpg' %}" class="circle-avatar">
+{% endif %}
+
+<br>
+<a href="/avatarChange/{{ user.id }}/">zmień avatar</a>
+<br>
+
+<div class="containerBlog">
+    <div class="latest-post">
+        {% if post is not None %}
+        <p>Mój najnowszy post:</p>
+        <p>Data: {{ post.created_at }}</p>
+        <p>Ocena: {{ post.average }}</p>
+        <p>Dział: {{ post.topic }}</p>
+        <b><p id="postTitle">Tytuł: {{ post.title }}</p></b>
+        <p>Post: {{ post.body|slice:":300" }}</p>
+        
+        <a href="/more/{{ post.id }}/">
+            czytaj dalej...
+        </a>
+        <br>
+
+        <a href="/myPosts/">
+            wszystkie moje posty...
+        </a>
+
+        {% else %}
+            <p>Nie masz jeszcze żadnych postów.</p>
+        {% endif %}
+    
+    </div>
+    <div class="other-posts">
+        <a href="/messenger/"><button class="btnRanking">KOMUNIKATOR</button></a>
+        <a href="/planner/"><button class="btnRanking">PLANER</button></a>
+        <a href="/postCreate/"><button class="btnRanking">STWÓRZ NOWY POST</button></a>
+        <p>Możesz stworzyć post w wybranej przez ciebie tematyce.
+            Zachęcamy do dzielenia się swoją wiedzą.
+        </p>
+    </div>
+</div>
+</div>
+{% endblock %}

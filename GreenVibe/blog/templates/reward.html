@@ -1,0 +1,30 @@
+{% extends 'music.html' %}
+{% block contentMusic %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+<p>Wygrana: {{ parametr }}</p>
+<p>Podaj dane do wysyłki:</p>
+<form method="POST">
+    {% csrf_token %}
+    <p>Imię:</p>
+    <input class="rewardSend" name="name" type="textbox" required>
+    <p>Nazwisko:</p>
+    <input class="rewardSend" name="surname" type="textbox" required>
+    <p>Telefon:</p>
+    <input class="rewardSend" name="telephone" type="tel" pattern="[0-9]{9}" title="Proszę wprowadzić 9 cyfr numeru telefonu." required>
+    <p>Ulica:</p>
+    <input class="rewardSend" name="street" type="textbox" required>
+    <p>Numer:</p>
+    <input class="rewardSend" name="number" type="textbox" required>
+    <p>Kod pocztowy:</p>
+    <input class="rewardSend" name="postcode" type="textbox" required>
+    <p>Miasto:</p>
+    <input class="rewardSend" name="city" type="textbox" required>
+    <br>
+    Po złożeniu zamówienia dostaniesz maila z potwierdzeniem.
+<br>
+<br>
+    <button class="submit_button">ODBIERAM NAGRODĘ</button>
+</form>
+{% endblock %}

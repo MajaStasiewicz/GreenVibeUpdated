@@ -1,0 +1,32 @@
+{% extends 'music.html' %}
+{% block contentMusic %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<script src="{% static 'scripts/blogStart.js' %}"></script>
+
+<div class="postsDiv">
+    {% if posts %}
+        {% for post in posts %}
+            <p>Data: {{ post.created_at }}</p>
+            <p>Dział: {{ post.topic }}</p>
+            <b><p id="postTitleOther">Tytuł: {{ post.title }}</p></b>
+            <div class="postWidth"><p>{{ post.body|slice:":400" }}</p></div>  
+                <a class="readMore" href="/more/{{ post.id }}/">
+                    czytaj dalej...
+                </a>
+                <br>
+                <a href="/deletePost/{{ post.id }}/" onclick="return confirm('Czy na pewno chcesz usunąć ten post?');">
+                    USUŃ POST...
+                </a>
+                    <br>
+                    <br>
+        {% endfor %}
+    {% else %}
+        <br>
+        <br>
+        <p>Nie masz jeszcze postów...</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+

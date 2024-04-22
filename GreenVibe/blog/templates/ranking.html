@@ -1,0 +1,96 @@
+{% extends 'music.html' %}
+{% block contentMusic %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+<br>
+<b class="postCreate">Najlepiej Oceniane Posty</b>
+
+<div class="category-container">
+    {% for post in top_posts %}
+        <div class="item">
+            <button class="btnRankingTop">
+                {% if forloop.counter == 1 %}
+                    <p id="postTitle">1</p>
+                {% elif forloop.counter == 2 %}
+                    <p id="postTitle">2</p>
+                {% else %}
+                    <p id="postTitle">3</p>
+                {% endif %}
+            </button>
+        </div>
+    {% endfor %}
+</div>
+
+    <div class="category-container">
+        {% for post in top_posts %}
+            <div class="item">
+                <button class="btnRankingTitle">
+                    <a id="postTitleOther" href="/more/{{ post.id }}/"><p id="postTitle" class="postTitleLink">Tytuł: {{ post.title }}</p></a>
+                </button>
+                <button class="btnRanking">
+                    <p id="postTitle">Ocena: {{ post.avg_rate }}</p>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+    <br>
+    <b class="postCreate">Użytkownicy z Największą Ilością Postów</b>
+
+    <div class="category-container">
+        {% for post in top_posts %}
+            <div class="item">
+                <button class="btnRankingTop">
+                    {% if forloop.counter == 1 %}
+                        <p id="postTitle">1</p>
+                    {% elif forloop.counter == 2 %}
+                        <p id="postTitle">2</p>
+                    {% else %}
+                        <p id="postTitle">3</p>
+                    {% endif %}
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="category-container">
+        {% for user in top_users_by_posts %}
+            <div class="item">
+                <button class="btnRanking">
+                    <p id="postTitle">Autor: {{ user.username }}</p>
+                </button>
+                <button class="btnRanking">
+                    <p id="postTitle">Ilość postów: {{ user.total_posts }}</p>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+<br>
+    <b class="postCreate">Najlepsi Użytkownicy Patrząc Na Średnią Ocen</b>
+    <div class="category-container">
+        {% for post in top_posts %}
+            <div class="item">
+                <button class="btnRankingTop">
+                    {% if forloop.counter == 1 %}
+                        <p id="postTitle">1</p>
+                    {% elif forloop.counter == 2 %}
+                        <p id="postTitle">2</p>
+                    {% else %}
+                        <p id="postTitle">3</p>
+                    {% endif %}
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="category-container">
+        {% for user in top_users_by_avg_rate %}
+            <div class="item">
+                <button class="btnRanking">
+                    <p id="postTitle">Autor: {{ user.username }}</p>
+                </button>
+                <button class="btnRanking">
+                    <p id="postTitle">Średnia postów: {{ user.avg_rate|floatformat:2 }}</p>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

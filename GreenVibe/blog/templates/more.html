@@ -1,0 +1,134 @@
+{% extends 'music.html' %}
+{% block contentMusic %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+<div class="containerLogin">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="custom-alert">
+            {{message}}
+            <button class="close-button" aria-label="Close">×</button>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="postsDiv">
+<p>Autor: {{ post.user }}</p>
+<p>Data: {{ post.created_at }}</p>
+<p>Ocena: {{ round_rate }}</p>
+<p>Dział: {{ post.topic }}</p>
+<b><p>Tytuł: {{ post.title }}</b></p>
+<br>
+<p class="postWidth">{{ post.body|linebreaksbr }}</p>
+
+<br>
+<div class="centered-buttons">
+
+<a  href="/comment/{{ post.id }}/">
+    <button class="buttonMore">chcę dodać komentarz</button>
+</a>
+
+<a  href="/allPosts/"><button class="buttonMore">inne posty</button></a>
+
+</div>
+</div>
+
+{% if reviews %}
+    {% for review in reviews %}
+    <div class="comment-margin">
+        <div class="comment-bubble">
+        <p class="comment-info">Data: {{ review.created_at }}</p>
+        <p class="comment-info">Autor: {{ review.user }}</p>
+        <p class="comment-info">Ocena: {{ review.rate }}</p>
+        <b><p class="comment-info comment-bigger">{{ review.comment }}</p></b>
+            {% if user == review.user %}
+                <a href="/deleteReviewBlog/{{ review.id }}/" class="delete-link" onclick="return confirm('Czy na pewno chcesz usunąć komentarz?');">
+                    usuń ten komentarz
+                </a>
+                <br>
+            {% endif %}
+                
+            <button class="buttonCreateAnswer" onclick="createAnswer('{{ review.id }}')" data-review-id="{{ review.id }}">dodaj odpowiedź</button>
+            <div class="createAnswer" style="display: none;" data-review-id="{{ review.id }}">
+                {% if user.is_authenticated %}
+                    <form method="POST" action="/answerReview/{{ review.id }}/">
+                        {% csrf_token %}
+                    <textarea class="textAreaComment" rows="1" cols="30" name="comment" maxlength="300" required></textarea>
+                    <button class="buttonUpdate">opublikuj</button> 
+                    </form>
+                {% endif %}
+            </div>
+            <br>
+            <button class="buttonAnswer" onclick="toggleAnswerHistory('{{ review.id }}')" data-review-id="{{ review.id }}">pokaż odpowiedzi</button>
+        <div class="answersContainer" style="display: none;" data-review-id="{{ review.id }}">
+            {% for answer in review.answers %}
+                {{ answer.created_at }}
+                {{ answer.user }}
+                <b class="comment-info comment-bigger">{{ answer.comment }}</b>
+                {% if user == answer.user %}
+                    <a href="/deleteAnswer/{{ answer.id }}/" class="delete-link" onclick="return confirm('Czy na pewno chcesz usunąć komentarz?');">
+                        usuń ten komentarz
+                    </a>
+                {% endif %}
+                    <br>
+                {% empty %}
+                    <p class="reviewMargin">Brak odpowiedzi.</p>
+                {% endfor %}
+        </div>
+            
+        </div>
+    </div>
+
+        {% endfor %}
+    
+{% else %}
+    <p class="reviewMargin">Brak recenzji...</p>
+{% endif %}
+
+
+<script>
+    var closeButtons = document.querySelectorAll('.close-button');
+
+    closeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var alert = this.closest('.custom-alert');
+            if (alert) {
+                alert.style.display = 'none'; 
+            }
+        });
+    });
+</script>
+
+
+<script>
+function createAnswer(reviewId) {
+    
+    var createAnswer = document.querySelector('.createAnswer[data-review-id="' + reviewId + '"]');
+    var button = document.querySelector('.buttonCreateAnswer[data-review-id="' + reviewId + '"]');
+
+    if (createAnswer.style.display === 'none' || createAnswer.style.display === '') {
+        createAnswer.style.display = 'block';
+        button.innerHTML = 'zwiń';
+    } else {
+        createAnswer.style.display = 'none';
+        button.innerHTML = 'dodaj odpowiedź';
+    }
+}
+
+function toggleAnswerHistory(reviewId) {
+    
+    var answerContainer = document.querySelector('.answersContainer[data-review-id="' + reviewId + '"]');
+    var button = document.querySelector('.buttonAnswer[data-review-id="' + reviewId + '"]');
+
+    if (answerContainer.style.display === 'none' || answerContainer.style.display === '') {
+        answerContainer.style.display = 'block';
+        button.innerHTML = 'ukryj odpowiedzi';
+    } else {
+        answerContainer.style.display = 'none';
+        button.innerHTML = 'pokaż odpowiedzi';
+    }
+}
+</script>
+{% endblock %}

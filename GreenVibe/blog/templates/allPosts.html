@@ -1,0 +1,47 @@
+{% extends 'music.html' %}
+{% block contentMusic %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+<form method="POST">
+    {% csrf_token %}
+<div class="allPosts">
+    <div class="allPostsElement">
+        <label for="topic">Wybierz dział:</label>
+    </div>
+    <div class="allPostsElement">
+        <select class="postTopicChoice" name="topic" required>
+            <option value="">-- Wybierz temat --</option>
+        {% for room in rooms %}
+            <option value="{{ room.name }}">{{ room.name }}</option>
+        {% endfor %}
+        </select>
+    </div>
+    <div class="allPostsElement">
+        <button class="btnBlog">filtruj</button>
+    </div>
+</div>
+</form>
+<div class="postsDiv">
+    {% if posts %}
+        {% for post in posts %}
+            <p class="data">Autor: {{ post.user }}</p>
+            <p class="data">Data: {{ post.created_at }}</p>
+            <p class="data">Ocena: {{ post.average }}</p>
+            <p class="data">Dział: {{ post.topic }}</p>
+            <b class="data"><p id="postTitleOther">Tytuł: {{ post.title }}</p></b>
+            <div class="allText postWidth"><p>Post: {{ post.body|slice:":100" }}</p></div>  
+            <a class="allText readMore" href="/more/{{ post.id }}/">
+                czytaj dalej...
+            </a>
+            <br>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>Brak postów w tej tematyce...</p>
+        <br>
+    {% endif %}
+</div>
+{% endblock %}
+
+

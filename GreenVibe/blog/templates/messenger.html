@@ -1,0 +1,17 @@
+{% extends 'music.html' %}
+{% block contentMusic %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+<br>
+<p class="postCreate">WYBIERZ POKÓJ</p>
+<br>
+<div class="roomRow">
+  {% for room in rooms %}
+    <div class="roomBtn">
+      <a href="/roomShow/{{ room.id }}/"><button class="submit_button_room">{{ room.name }}</button></a>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

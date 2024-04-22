@@ -1,0 +1,17 @@
+{% extends 'music.html' %}
+{% block contentMusic %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+<div class="postsDiv">
+    <p>Zaloguj się, aby dołączyć do społeczności bloga.</p>
+    <p>Dzięki temu będziesz mógł tworzyć własne treści,
+        komentować oraz oceniać wpisy innych.
+    </p>
+    <a href="/login/">zaloguj się</a>
+    <p>nie masz konta?</p>
+    <a  href="/register/">zarejestruj się</a>
+    <br>
+    <br>
+</div>
+{% endblock %}

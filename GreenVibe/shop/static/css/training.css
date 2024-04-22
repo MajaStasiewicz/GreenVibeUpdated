@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&family=Cinzel+Decorative:wght@700;900&family=Lexend:wght@700&family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:wght@100;200;300&family=Akaya+Telivigala&family=Cinzel+Decorative:wght@700;900&family=Lexend:wght@700&family=Russo+One&display=swap');
+
+.container {
+    padding: 5px;
+    max-width: 960px;
+    width: 95%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.elements {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.element {
+    flex: 1;
+    margin: 2px;
+    padding: 10px;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.element:first-child {
+    margin-left: 0;
+}
+
+.element:last-child {
+    margin-left: 0;
+}
+
+@media screen and (max-width: 680px) {
+    .container {
+        text-align: center; 
+    }
+
+    .elements {
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+    }
+}
+
+.element:nth-child(2) {
+    font-size: 20px;
+}
+
+.title {
+    text-align: center;
+    font-family: 'Arial Narrow', sans-serif;
+    margin-top: 5%;
+    margin-bottom: 2%;
+}
+
+.workout {
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Arial Narrow', sans-serif;
+    margin-top: 2%;
+    margin-right: 20%;
+    margin-left: 20%;   
+}
+
+.text {
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Arial Narrow', sans-serif;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

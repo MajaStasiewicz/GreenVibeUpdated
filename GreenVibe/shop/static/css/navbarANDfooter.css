@@ -1,0 +1,325 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&family=Cinzel+Decorative:wght@700;900&family=Lexend:wght@700&family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:wght@100;200;300&family=Akaya+Telivigala&family=Cinzel+Decorative:wght@700;900&family=Lexend:wght@700&family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&family=Cinzel+Decorative:wght@700;900&family=Lexend:wght@700&family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:wght@100;200;300&family=Akaya+Telivigala&family=Cinzel+Decorative:wght@700;900&family=Lexend:wght@700&family=Russo+One&display=swap');
+
+:root {
+    --primary-100: #DCDCDC;
+    --primary-200: #D3D3D3;
+    --primary-300: #C0C0C0;
+    --primary-400: #A9A9A9;
+    --primary-500: #808080;
+    --primary-600: #696969;
+    --primary-700: #778899;
+    --primary-800: #708090;
+    --primary-900: #2F4F4F;
+    --primary-1000: #000000;
+
+    --fontColor: var(--primary-1000);
+    --backgroundColor: var(--primary-100);
+    --bodyFont: 'Oswald', sans-serif;
+    --headerFont: 'Black Ops One', cursive;
+}
+
+body {
+    margin: 0;
+    color: var(--fontColor);
+    background-color: rgb(240, 237, 237);
+    font-family: var(--bodyFont);
+    line-height: 2rem;
+    width: 100%;
+    height: 100%;
+}
+
+* {
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+nav {
+    height: 80px;
+    width: 100%;
+}
+
+.logo {
+    margin-top: 0.5%;
+    padding: 0 20px;
+}
+
+nav ul {
+    float: right;
+    margin-right: auto;
+    font-family: 'Arial Narrow', sans-serif;
+    margin-top: 0px;
+}
+
+nav ul li {
+    display: inline-block;
+    line-height: 80px;
+    margin: 0 5px;
+    font-family: 'Arial Narrow', sans-serif;
+}
+
+nav ul li a {
+    color: white;
+    font-size: 17px;
+    padding: 7px 13px;
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+
+.navA:hover {
+    background: #4aa04f;
+    transition: .5s;
+}
+
+header {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    background: #347D39;
+}
+
+header .header-left {
+    display: flex;
+}
+
+nav .login-signup {
+    display: none;
+}
+
+header .header-right {
+    display: flex;
+    align-items: right;
+}
+
+header .login-signup {
+    display: none;
+}
+
+header .header-right .hamburger {
+    margin-left: 20px;
+    cursor: pointer;
+    display: none;
+}
+
+header .header-right .hamburger div {
+    width: 30px;
+    height: 2px;
+    margin: 6px 0;
+    background: #ffffff;
+}
+
+@media only screen and (max-width: 1200px) {
+    .logo {
+        margin-top: 1%;
+        padding: 0 20px;
+    }
+    header {
+        padding: 0 20px;
+        justify-content: space-between;
+    }
+    header .header-right .hamburger {
+        display: block;
+    }
+    header .header-left nav {
+        margin: 0;
+        position: absolute;
+        top: -100%;
+        left: 0;
+        width: 100%;
+        height: fit-content;
+        background-color:  #347D39;
+        padding: 30px;
+        transition: 0.3s;
+        text-align: center;
+        z-index: 1;
+    } 
+    header .header-left nav.active {
+        top: 70px;
+    }
+    header .header-left nav ul {
+        display: block;
+    }
+    a.active, a:hover {
+        transition: .5s;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    nav .login-signup {
+        display: block;
+        margin-top: 20px;
+    }
+    header .header-right .login-signup {
+        display: none;
+    }
+    a.active, a:hover {
+        /*background: #c7a9a9;*/
+        transition: .5s;
+    }
+}
+
+footer {
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    background: #347D39;
+    color: #fff;
+    padding: 50px 0 30px;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+.rowF {
+    width: 85%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.colF {
+    flex-basis: 25%;
+    padding: 10px;
+    font-family: 'Arial Narrow', sans-serif;
+    font-size: 15px;
+}
+
+.colF:nth-child(2), .colF:nth-child(3) {
+    flex-basis: 15%;
+}
+
+.logoF {
+    margin-left: 105px;
+    width: 100px;
+    height: 50px;
+    margin-bottom: 2px;
+}
+
+.colF h3 {
+    width: fit-content;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+#setting {
+    color:black;
+    font-weight: bolder;
+}
+
+#add {
+    margin-left: -40px;
+}
+
+.email-id {
+    font-family: 'Arial Narrow', sans-serif;
+    font-size: 15px;
+}
+
+.email-id::placeholder {
+    color: white;
+}
+
+.help {
+    list-style: none;
+    margin-bottom: 12px;
+}
+
+.helpA {
+    text-decoration: none;
+    color: #fff;
+}
+
+.helpA:hover {
+    color: rgb(23, 34, 27);
+}
+
+.formNews {
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.formNews .far {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.formNews input {
+    width: 100%;
+    background: transparent;
+    color: #ccc;
+    border: 0;
+    outline: none;
+}
+
+.formNews button {
+    background: transparent;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+}
+
+.formNews button .fas {
+    font-size: 16px;
+    color: #ccc;
+}
+
+hr {
+    width: 90%;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+    margin: 20px auto;
+}
+
+.copyright {
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.underline {
+    width: 100%;
+    height: 5px;
+    background: #044408;
+    border-radius: 3px;
+    position: absolute;
+    top: 25px;
+    left: 0;
+}
+
+@media (max-width: 700px) {
+    footer {
+        bottom: unset;
+    }
+    .colF {
+        flex-basis: 100%;
+    }
+    .colF:nth-child(2), .colF:nth-child(3) {
+        flex-basis: 100%;
+    }
+}
+
+.titleFooter {
+    font-size: 40px;
+}
+
+.containerItems {
+    margin-bottom: 8%;
+}
+
+
+
+
+
+
+
+
+

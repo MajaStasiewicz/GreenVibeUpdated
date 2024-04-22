@@ -1,0 +1,30 @@
+{% extends 'navbar.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/survey.css' %}">
+
+<form class="dataForm" id="dataForm" action="/check/" method="POST">
+  {%csrf_token%}
+      <b><p class="dataQuestion3">Hej {{klient}}!</p></b>
+      <b><p class="dataQuestion3">Które z tych dziedzin są dla ciebie aktualnie najważniejsze?</p></b>
+      <b><p class="dataQuestion3">Wybierz dokładnie 3.</p></b>
+
+      {% for heading in headings %}
+          <input type="checkbox" value="{{ heading }}" name="option">
+          <label class="dataQuestion3" for="wlosy">{{ heading }}</label><br>
+      {% endfor %}
+   
+          <input type="submit" class="buttonNext" value="dalej">
+</form>
+
+<script>
+  document.getElementById("dataForm").addEventListener("submit", function (event) {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="option"]:checked');
+      if (checkboxes.length !== 3) {
+        event.preventDefault();
+        alert("Musisz zaznaczyć dokładnie 3 pozycje!");
+      }
+  });
+</script>
+
+{% endblock %}

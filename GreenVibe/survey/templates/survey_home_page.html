@@ -1,0 +1,40 @@
+{% extends 'navbar.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/survey.css' %}">
+
+<div class="containerLogin">
+     {% if messages %}
+         {% for message in messages %}
+         <div class="custom-alert">
+             {{message}}
+             <button class="close-button" aria-label="Close">×</button>
+         </div>
+         {% endfor %}
+     {% endif %}
+ </div>
+
+<form class="surveyHomeForm" method="POST">
+    {% csrf_token %}
+     <div class="submitTextDiv">
+          <input type="checkbox" class="submitText" name="submitText" required>
+          <label class="submitText" name="submitText">Ankieta stanowi jedynie sugestię 
+               i nie zastąpi konsultacji z lekarzem oraz badań.</label>
+     </div>
+     <button type="submit" class="buttonSurvey">ANKIETA</button>
+
+</form>
+
+<script>
+     var closeButtons = document.querySelectorAll('.close-button');
+ 
+     closeButtons.forEach(function(button) {
+         button.addEventListener('click', function() {
+             var alert = this.closest('.custom-alert');
+             if (alert) {
+                 alert.style.display = 'none'; 
+             }
+         });
+     });
+ </script>
+{% endblock %}

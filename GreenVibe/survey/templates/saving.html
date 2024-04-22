@@ -1,0 +1,55 @@
+{% extends 'navbar.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/survey.css' %}">
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+
+<div class="containerLogin">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="custom-alert">
+            {{message}}
+            <button class="close-button" aria-label="Close">×</button>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+    {%for item in all %}
+        <p class="dataQuestionSave">{{ item }}</p>
+    {%endfor%}
+
+    <p class="dataQuestionSave">SUGERUJEMY ZAKUP PONIŻSZYCH SUPLEMENTÓW:</p>
+<form method="POST">
+    {% csrf_token %}
+
+
+    <div class="containerProducts">
+        {% for product in products %}
+        <a><div class="containerProductsDetails">
+            <div class="containerDetailsName">{{ product.name }}</div>
+            <div class="containerDetails"><img src="{{ product.photo.url }}" width="160" height="260"></div>
+            <div class="containerDetailsName" data-price="{{ product.price}}">Cena: {{ product.price }}zł</div>
+            <button class="buttonProduct" name="product_name" value="{{ product.name }}">dodaj do koszyka</button>
+        </div></a>
+        {% endfor %}
+    </div>
+
+</form>   
+
+<script>
+    var closeButtons = document.querySelectorAll('.close-button');
+
+    closeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var alert = this.closest('.custom-alert');
+            if (alert) {
+                alert.style.display = 'none'; 
+            }
+        });
+    });
+</script>
+
+{% endblock %}
+
+

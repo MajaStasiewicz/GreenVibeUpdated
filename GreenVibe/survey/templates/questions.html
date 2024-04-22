@@ -1,0 +1,37 @@
+{% extends 'navbar.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/survey.css' %}">
+
+    <form class="dataForm" method="POST">
+        {%csrf_token%}
+        <b><p class="dataQuestion3">{{Question.heading}}</p></b>
+        <p class="dataQuestion3">{{Question.question}}</p>
+            <input type="radio" value="1" name="odp" required>
+            <label class="dataQuestion3">{{Question.answer1}}</label><br>
+
+            <input type="radio" value="2" name="odp">
+            <label class="dataQuestion3">{{Question.answer2}}</label><br>
+
+            <input type="radio" value="3" name="odp">
+            <label class="dataQuestion3">{{Question.answer3}}</label><br>
+        {% if Question.answer4 %}
+            <input type="radio" value="3" name="odp">
+            <label class="dataQuestion3">{{Question.answer4}}</label><br>
+        {% endif %}
+
+    <div class="nextPrevious">
+              <input type="submit" class="buttonNext" value="dalej">
+      </form>  
+  </div>
+        
+<script>
+  window.history.pushState(null, null, window.location.href);
+  window.onpopstate = function(event) {
+    window.history.pushState(null, null, window.location.href);
+  };
+</script> 
+
+{% endblock %}
+
+

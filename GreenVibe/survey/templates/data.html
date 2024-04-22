@@ -1,0 +1,36 @@
+{% extends 'navbar.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/survey.css' %}">
+
+<form class="dataForm" method="POST">
+     {% csrf_token %}
+          <b><p class="dataQuestion">DANE POCZĄTKOWE</p></b>
+
+          <p class="dataQuestion">Jak masz na imię?</p>
+          <input class="data" type="text" name="imie" required>
+
+          <p class="dataQuestion">Jaka jest twoja waga? (kg)</p>
+          <input class="data" type="text" name="waga" pattern="[1-9][0-9]*" maxlength="3" title="Wprowadź liczbę większą niż zero" required>
+     
+          <p class="dataQuestion">Ile masz wzrostu? (cm)</p>
+          <input class="data" type="text" name="wzrost" pattern="[1-9][0-9]*" maxlength="3" title="Wprowadź liczbę większą niż zero" required>
+     
+          <p class="dataQuestion">Ile masz lat?</p>
+          <input class="data" type="text" name="wiek" pattern="[1-9][0-9]*" maxlength="3" title="Wprowadź liczbę większą niż zero" required>
+     
+     <div class="dataDiv">
+          <span class="dataQuestion">Zaznacz płeć:</span><br>
+          <input type="radio" class="dataAnswer" value="kobieta" name="plec" required>
+          <label class="dataQuestionRadio" for="kobieta">kobieta</label><br>
+          <input type="radio" class="dataAnswer" value="mezczyzna" name="plec">
+          <label class="dataQuestionRadio" for="mezczyzna">meżczyzna</label><br>
+          <input type="radio" class="dataAnswer" value="nie chce podawac" name="plec">
+          <label class="dataQuestionRadio" for="nie chce podawac">nie chcę podawać</label>
+     </div>
+     <div class="nextPrevious">
+          <input type="submit" class="buttonNext" value="dalej">
+  </form>  
+</div>
+
+{% endblock %}
